@@ -11,3 +11,10 @@ ______   ______   __   __   __       ______   _______
 ----
 Example timestamp (for copy/pasting) : topherM -- 1999-12-31 23:59
 ----
+
+shannonL, joyceW -- 2018-05-14 13:19
+Wrote design document summary and began database schema
+Researched Spotify API documentation
+
+shannonL, tiffanyM, joyceW, helenY -- 2018-05-15 00:01
+Finished design document
