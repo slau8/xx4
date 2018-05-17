@@ -19,6 +19,10 @@ Researched Spotify API documentation
 shannonL, tiffanyM, joyceW, helenY -- 2018-05-15 00:01
 Finished design document
 
+helenY -- 2018-05-16 06:32
+Add base app
+    Only has home route, no templates
+
 shannonL, tiffanyM, joyceW, helenY -- 2018-05-16 23:03
 Updated design document together again!
 Clarified component map and site map
