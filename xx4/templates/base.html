@@ -1,0 +1,70 @@
+<!--Shaolin Dragons
+Jasper Cheung, Shannon Lau, Carol Pan, Helen Ye
+SoftDev pd7
+P02 - 4Gifs1Word -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}4 GIFS 1 WORD{% endblock title %}</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Roboto" rel="stylesheet">
+  <link rel="icon" href="../static/img/favicon.png">
+  <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+  <!-- <script src="../static/js/jquery-3.2.1.min.js"></script> -->
+</head>
+<body class="{% block bodyclass %}bg-gradient{% endblock bodyclass %}">
+  {% block nav %}
+  <div class="container-fluid bg-gradient banner">
+    <nav class="navbar">
+      <div class="container" id="nav">
+        <a href="/" class="navbar-left" style="margin-right:15px;"><img class="img-logo" src="../static/img/logo.png" width="40" height="40"></a>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">4 GIFS 1 WORD</a>
+        </div>
+        <div class="navbar-right">
+          {% if logged_in %}
+          <a class="btn btn-outline btn-icon" href="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+          {% else %}
+          <a class="btn btn-outline btn-icon" href="/login"><span class="glyphicon glyphicon-log-in"></span></a>
+          {% endif %}
+        </div>
+        <ul class="nav navbar-nav navbar-right nav-name">
+          {% if logged_in %}
+          <li class="nav-item space"><a href="{{ url_for('.rankings', _anchor = username.lower()) }}" style="color:white; background-color: transparent;"><b>WELCOME, {{ username }}</b> <span class="badge">{{ score }}</span></a></li>
+          {% else %}
+          <li class="nav-item space"><b>WELCOME, {{ username }}</b> <span class="badge">{{ score }}</span></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  {% endblock nav %}
+
+  {% block alerts %}
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+  <div class="messages">
+    {% for alert_cat, msg in msgs %}
+    <div class="alert alert-{{ alert_cat }} alert-dismissable" role="alert">
+      {{ msg }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endwith %}
+  {% endblock alerts %}
+
+  {% block content %}
+  {% endblock content %}
+
+  {% block enddiv %}
+</div> <!--DONT DELETE VERY IMPORTANT-->
+  {% endblock enddiv %}
+
+  <div class="footer container-fluid text-center">
+    <p>Made with love by <a class="link-dotted" href="https://github.com/slau8/shaolin-dragons">Shaolin Dragons</a></p>
+  </div>
+  {% block script %}
+  {% endblock script %}
+</body>
+</html>
