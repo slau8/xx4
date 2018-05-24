@@ -1,0 +1,25 @@
+<!--Shaolin Dragons
+Jasper Cheung, Shannon Lau, Carol Pan, Helen Ye
+SoftDev pd7
+P02 - 4Gifs1Word -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card card-center">
+  <h1 class="card-header">LOG IN</h1>
+  <form action="/login" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Username" name="username" required>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control text-round" placeholder="Password" name="password" required>
+    </div>
+    <input class="btn btn-block" type="submit" value="GO" name="login">
+  </form><br>
+  <p>
+    <a href="/signup" class="link-dotted">sign up here</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/categories" class="link-dotted">play as guest</a>
+  </p>
+</div>
+{% endblock content%}
