@@ -29,3 +29,8 @@ Clarified component map and site map
 Switched from MongoDB to SQL
 Added component description
 Elaborated further on task delegation
+
+helenY -- 2018-05-24 21:15
+Try to get Spotify app authorization working
+    Getting error when spotify.py is in /utils
+    Getting nondescript error when redirecting to authorization url
