@@ -1,11 +1,12 @@
 import requests
 import urllib
 
-CLIENTSIDE_URL = '127.0.0.1:5000'
-CLIENT_ID = '873ca57519784131a2bbb3517d77a6d7'
-AUTH_URL = 'https://accounts.spotify.com/authorize/?'
+CLIENTSIDE_URL = 'http://127.0.0.1:5000'
+CLIENT_ID = ''
+AUTH_URL = 'https://accounts.spotify.com/authorize'
+TOKEN_URL = 'https://accounts.spotify.com/api/token'
 REDIRECT_URI = CLIENTSIDE_URL + '/apitest'
-SCOPE = 'playlist-modify-public'
+SCOPE =  'playlist-modify-public'
 
 def auth_app():
     auth_params = {
@@ -15,6 +16,6 @@ def auth_app():
             'redirect_uri': REDIRECT_URI,
             'scope': SCOPE
         }
-    url = AUTH_URL + urllib.urlencode(auth_params)
+    url = AUTH_URL + "/?" + urllib.urlencode(auth_params)
     print url
     return url
