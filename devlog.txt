@@ -34,3 +34,10 @@ helenY -- 2018-05-24 21:15
 Try to get Spotify app authorization working
     Getting error when spotify.py is in /utils
     Getting nondescript error when redirecting to authorization url
+
+helenY -- 2018-05-25 13:19
+Finish getting authorization code, working on getting access token
+    Needed to add the redirect URI as valid on the app settings page
+
+helenY -- 2018-05-26 12:40
+Finish getting access token

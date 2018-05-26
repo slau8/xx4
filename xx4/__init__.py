@@ -13,6 +13,8 @@ def spotifyauth():
 
 @app.route("/apitest")
 def apitest():
+    d = spotify.retrieve_token()
+    print d
     return render_template("test.html")
 
 if __name__ == "__main__":
