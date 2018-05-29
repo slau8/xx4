@@ -15,6 +15,7 @@ AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 REDIRECT_URI = CLIENTSIDE_URL + '/apitest'
 SCOPE =  'playlist-modify-public'
+CREATE_PLAYLIST_URL = 'https://api.spotify.com/v1/users/' + CLIENT_ID + '/playlists'
 
 def auth_app():
     auth_params = {
@@ -52,3 +53,6 @@ def retrieve_token():
 
     resp = json.loads(req.text)
     return resp
+
+def add_track(playlist_id):
+    url = CREATE_PLAYLIST_URL + '/' + playlist_id + '/tracks'
