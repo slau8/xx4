@@ -4,7 +4,7 @@ import hashlib
 
 def open_db():
     global db
-    f= "../data/spotify.db"
+    f= "data/spotify.db"
     db = sqlite3.connect(f, check_same_thread = False) #open if f exists, otherwise create
     return
 
@@ -19,7 +19,7 @@ def db_setup():
     open_db()
     c_dup = db.cursor()
     c_dup.execute("CREATE TABLE IF NOT EXISTS hosts(username TEXT PRIMARY KEY, fname TEXT, lname TEXT, pass TEXT, key TEXT)")
-    c_dup.execute("CREATE TABLE IF NOT EXISTS rooms(name INTEGER PRIMARY KEY, key TEXT, host_user TEXT, songs TEXT)")
+    c_dup.execute("CREATE TABLE IF NOT EXISTS rooms(name TEXT PRIMARY KEY, key TEXT, host_user TEXT, songs TEXT)")
 
     close()
     return
@@ -29,15 +29,16 @@ def db_setup():
 
 #Create an account
 #-----------------
-def createAcc(user, passw, fname, lname):
+def createAcc(user, passw, fname, lname, key = "0000"):
     global db
     try:
         open_db()
         c_dup = db.cursor()
         hash_object = hashlib.sha224(passw)
         hashed_pass = hash_object.hexdigest()
-        command = "INSERT INTO accounts VALUES(?,?)"
-        c_dup.execute(command, (user, hashed_pass))
+        command = "INSERT INTO hosts VALUES(?,?,?,?,?)"
+        c_dup.execute(command, (user, fname, lname, hashed_pass, key))
+        
         close()
     except:
         print "Error in Account Creation: Username already taken."
@@ -51,28 +52,64 @@ def auth(user):
     response = []
     open_db()
     c_dup = db.cursor()
-    command = "SELECT username FROM accounts WHERE username = ?"
-    c_dup.execute(command, (user))
-    users = c_dup.fetchall()
-    if len(users) == 0:
+    command = command = "SELECT pass FROM hosts WHERE username = \"%s\"" % (user)
+    print command
+    c_dup.execute(command)
+    pwds = c_dup.fetchall()
+    if len(pwds) == 0:
         response.append(False)
     else:
         response.append(True)
-        command = "SELECT pass FROM accounts WHERE username = ?" 
-        c_dup.execute(command,(user))
-        pwds = c_dup.fetchall()
         for passw in pwds:
             response.append(passw)
             print passw
     close()
     return response
 
+#Rooms
+#==========================================================
+#Create a room
+#-----------------
+def createRoom(name, user, key = "0000"):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "INSERT INTO rooms VALUES(?,?,?,?)"
+        c_dup.execute(command, (name, key, user, ""))
+        close()
+    except:
+        print "Error in Room Creation: Room name already taken."
+        return False
+    return True
 
+#Add songs
+#-----------------
+
+def addSongs(name, key, song):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT songs FROM rooms WHERE name = \"%s\" AND key = \"%s\" " % (name, key)
+        c_dup.execute(command)
+        songs = c_dup.fetchall()[0][0]
+        songs = songs + song + ", "
+        command = "UPDATE rooms SET songs =  \"%s\" WHERE name = \"%s\" AND key = \"%s\" " % (songs, name, key)
+
+        c_dup = db.cursor()
+        c_dup.execute(command)
+        close()
+    except:
+        print "Wrong Pin or Name"
+        return False
+    return True
+
+    
 #==========================================================
 #TESTS
-#createAcc("jack", "jackpwd")
-#createAcc("lils", "lilspwd")
-#createBlog("lol", "lel", "dfjaksjd")
-#updateBlog(2, "sry fell asleep", "won't happen again")
-#print getBlog("lol")
-#createBlog("emily", "testing", "does this still work?") #so it does
+#db_setup()
+#createAcc("jack", "Jack", "Boy", "jackpwd")
+#createAcc("jack", "lol", "peep", "ksjdlf")
+#print auth("jack")
+#createRoom("lol", "tim", "0129")
+addSongs("lol", "0129", "peep")
+
