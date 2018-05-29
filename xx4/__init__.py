@@ -59,7 +59,9 @@ def spotifyauth():
 @app.route("/apitest")
 def apitest():
     d = spotify.retrieve_token()
-    print d
+    session["access_token"] = d["access_token"]
+    db.update_token(d["refresh_token"])
+    
     return render_template("test.html")
 
 if __name__ == "__main__":
