@@ -39,5 +39,11 @@ helenY -- 2018-05-25 13:19
 Finish getting authorization code, working on getting access token
     Needed to add the redirect URI as valid on the app settings page
 
+joyceW -- 2018-05-25 13:20
+Did research and played around with Spotify API
+
 helenY -- 2018-05-26 12:40
 Finish getting access token
+
+joyceW -- 2018-05-28 11:47
+Discovered Spotipy api, will use for manipulating tracks for playlists
