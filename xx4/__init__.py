@@ -64,6 +64,11 @@ def apitest():
     
     return render_template("test.html")
 
+@app.route("/add_track")
+def add_track():
+    token = spotify.get_acess_token(spotify.retrieve_token())
+    tracks = 
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
