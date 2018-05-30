@@ -11,6 +11,10 @@ app.secret_key = os.urandom(32)
 def index():
     return render_template("home.html")
 
+@app.route("/test")
+def test():
+    return render_template("enter.html")
+
 '''
 
 @app.route("/createaccount")

@@ -36,7 +36,7 @@ a, a:hover, a:active, a:visited, a:focus {
 .link-dotted, .link-dotted:hover, .link-dotted:active, .link-dotted:visited {
   text-decoration: none;
   border-bottom: 1px dotted;
-  color: #ff9966;
+  color: #ff3735;
 }
 
 .img-logo {
@@ -69,6 +69,15 @@ a, a:hover, a:active, a:visited, a:focus {
   background: linear-gradient(to right, #ff9966, #ff5e62);
   color: white;
   text-align: center;
+}
+
+.bg-navy {
+  background: #143642;
+  color: #EBEEF4;
+}
+
+.bg-white {
+  background: #EBEEF4;
 }
 
 .color-shadow {
@@ -122,8 +131,8 @@ a, a:hover, a:active, a:visited, a:focus {
   font-family: 'Roboto', sans-serif;
   border-radius: 12px;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
-  background-color: #FFFFFF;
-  color: #333333;
+  background-color: #EBEEF4;
+  color: #143642;
   padding: 10px;
 }
 
@@ -239,12 +248,12 @@ a, a:hover, a:active, a:visited, a:focus {
 .btn-block {
   margin-left: 0px;
   margin-right: 0px;
-  color: #FFFFFF;
-  background-color: #333333;
+  color: #EBEEF4;
+  background-color: #143642;
 }
 
 .btn-block:hover, .btn-block:active, .btn-block:focus {
-  color: #FFFFFF;
+  color: #EBEEF4;
 }
 
 .btn-default {
@@ -307,14 +316,13 @@ a, a:hover, a:active, a:visited, a:focus {
     color: #FFFFFF;
 }
 
-
 .footer {
   position: absolute;
   bottom: 0;
   padding-top: 1rem;
   text-align: center;
-  color: white;
-  background-color: #333333;
+  color: #143642;
+  background-color: #EBEEF4;
   width: 100%;
   margin: 0;
 }
