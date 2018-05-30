@@ -56,15 +56,21 @@ def retrieve_token():
     resp = json.loads(req.text)
     return resp
 
-def get_track(track, artist, token):
-    req = requests.get(API_URL + "/v1/search", q=track, artist=artist, header=token)
+def get_track(track, token):
+    params = {"q": track, "type": "track"}
+    authorization_header = {"Authorization": "Bearer " + token}
+    req = requests.get(API_URL + "/v1/search", params=params, headers=authorization_header)
     resp = json.loads(req.text)
-    return req
+    print "======================TRACK ID==============="
+    print resp
+    print "============================================="
+    track = resp["tracks"]["items"][0]["uri"].split(":")[2]
+    return track
 
-def add_track(track_id):
-    return
-
-def authorization_header(d):
-    token = d["access_token"]
-    authorization_header = {"Authorization": "Bearer {}".format(access_token)}
-    return authorization_header
+def add_track(track_id, token):
+    authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}
+    params = {"name": "test"}
+    req = requests.post('https://api.spotify.com/v1/users/' + CLIENT_ID + '/playlists', params=params, headers=authorization_header)
+    resp = json.loads(req.text)
+    print resp
+    return resp
