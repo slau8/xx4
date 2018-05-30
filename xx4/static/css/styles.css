@@ -72,12 +72,13 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .bg-navy {
-  background: #143642;
+  background: #132842;
   color: #EBEEF4;
 }
 
 .bg-white {
   background: #EBEEF4;
+  color: #132842;
 }
 
 .color-shadow {
@@ -321,7 +322,7 @@ a, a:hover, a:active, a:visited, a:focus {
   bottom: 0;
   padding-top: 1rem;
   text-align: center;
-  color: #143642;
+  color: #132842;
   background-color: #EBEEF4;
   width: 100%;
   margin: 0;
