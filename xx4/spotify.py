@@ -56,17 +56,15 @@ def retrieve_token():
     resp = json.loads(req.text)
     return resp
 
-def get_track(track, artist):
-    encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
-    header = {"Authorization": "Bearer" + encoded}
-    req = requests.get(API_URL + "/v1/search", q=track, artist=artist, header=header)
+def get_track(track, artist, token):
+    req = requests.get(API_URL + "/v1/search", q=track, artist=artist, header=token)
     resp = json.loads(req.text)
     return req
 
 def add_track(track_id):
     return
 
-def get_access_token(d):
+def authorization_header(d):
     token = d["access_token"]
     authorization_header = {"Authorization": "Bearer {}".format(access_token)}
     return authorization_header

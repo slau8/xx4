@@ -63,13 +63,17 @@ def apitest():
     d = spotify.retrieve_token()
     session["access_token"] = d["access_token"]
     # db.update_token(d["refresh_token"])
-    print d['access_token']
+    print "===========================access token========="
+    print session.get('access_token')
+    print "===========================access token========="
     return render_template("test.html")
 
-@app.route("/add_track", methods=["POST", 'GET"'])
+@app.route("/add_track", methods=["POST", 'GET'])
 def add_track():
-    print session["access_token"]
-    token = spotify.get_acess_token(spotify.retrieve_token())
+    token = session.get("access_token")
+    print "===========================access token========="
+    print token
+    print "===========================access token========="
     # track = request.form['track'] #need to confirm with html
     #######TESTING###############
     track = "Just the Way You Are"
@@ -77,7 +81,7 @@ def add_track():
     # artist = request.form['artist'] #need to confirm with html
     artist = "Bruno Mars"
     artist.replace(" ", "%20")
-    track_id = spotify.get_track(track, artist)
+    track_id = spotify.get_track(track, artist, token)
     spotify.add_track(track_id)
     return render_template("test.html", track_id = track_id)
 
