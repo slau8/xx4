@@ -38,21 +38,25 @@ P02 - Jimmy Jams -->
           <li class="nav-item space"><b>WELCOME, {{ username }}</b> <span class="badge">{{ score }}</span></li>
           {% endif %}
         </ul> -->
+        <ul class="nav navbar-nav navbar-right nav-name">
+          {% block right_nav %}
+          {% endblock right_nav %}
+        </ul>
       </div>
     </nav>
   {% endblock nav %}
 
-  <!-- {% block alerts %}
-  {% with msgs = get_flashed_messages(with_categories=true) %}
+  {% block alerts %}
+  {% with msgs = get_flashed_messages() %}
   <div class="messages">
     {% for alert_cat, msg in msgs %}
-    <div class="alert alert-{{ alert_cat }} alert-dismissable" role="alert">
+    <div class="alert alert-warning alert-dismissable" role="alert">
       {{ msg }}
     </div>
     {% endfor %}
   </div>
   {% endwith %}
-  {% endblock alerts %} -->
+  {% endblock alerts %}
 
   {% block content %}
   {% endblock content %}
