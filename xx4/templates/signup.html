@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block bodyclass %} bg-white {% endblock bodyclass %}
+
+{% block content %}
+<div class="card card-center">
+  <h1 class="card-header">SIGN UP FOR YOUR ROOM</h1>
+  <form action="/" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Username" name="username" required>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control text-round" placeholder="Password" name="password1" required>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control text-round" placeholder="Confirm Password" name="password2" required>
+    </div>
+    <input class="btn btn-block" type="submit" value="SIGN UP" name="sign_up">
+  </form><br>
+  <p>
+    <a href="/login" class="link-dotted">log in here</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/test" class="link-dotted">enter a room</a>
+  </p>
+</div>
+{% endblock content%}

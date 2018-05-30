@@ -15,7 +15,7 @@ body {
 }
 
 h1 {
-  font-family: 'Baloo Chettan', cursive;
+  font-family: 'Karla', sans-serif;
 }
 
 p {
@@ -90,8 +90,8 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .navbar-brand, .navbar-brand:hover, navbar-brand:active, .navbar-brand:focus {
-  color: white;
-  font-family: 'Baloo Chettan', cursive;
+  color: #EDB528;
+  font-family: 'Karla', sans-serif;
   font-size: 40px;
 }
 
@@ -286,8 +286,8 @@ a, a:hover, a:active, a:visited, a:focus {
 
 .form-control:focus {
   /* Orange glow border for text fields */
-  border-color: #ff9966;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255,153,102,0.6);
+  border-color: #EDB528;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(237,181,40,0.6);
 }
 
 .img-container {

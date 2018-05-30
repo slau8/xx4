@@ -15,6 +15,12 @@ def index():
 def test():
     return render_template("enter.html")
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+@app.route("/login")
+    return render_template("login.html")
 '''
 
 @app.route("/createaccount")
