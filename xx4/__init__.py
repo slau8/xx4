@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import spotify
-from utils import database as db
+# from utils import database as db
 import hashlib
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(32)
 
 @app.route("/")
 def index():
@@ -30,7 +32,7 @@ def check_creation():
 	else:
 		flash("Passwords do not match :(")
 		return redirect(url_for("create_account"))
-    
+
 @app.route("/welcome")
 def logged_in():
    input_name = request.args["username"]
@@ -60,14 +62,24 @@ def spotifyauth():
 def apitest():
     d = spotify.retrieve_token()
     session["access_token"] = d["access_token"]
-    db.update_token(d["refresh_token"])
-    
+    # db.update_token(d["refresh_token"])
+    print d['access_token']
     return render_template("test.html")
 
-@app.route("/add_track")
+@app.route("/add_track", methods=["POST", 'GET"'])
 def add_track():
+    print session["access_token"]
     token = spotify.get_acess_token(spotify.retrieve_token())
-    tracks = 
+    # track = request.form['track'] #need to confirm with html
+    #######TESTING###############
+    track = "Just the Way You Are"
+    track.replace(" ", "%20")
+    # artist = request.form['artist'] #need to confirm with html
+    artist = "Bruno Mars"
+    artist.replace(" ", "%20")
+    track_id = spotify.get_track(track, artist)
+    spotify.add_track(track_id)
+    return render_template("test.html", track_id = track_id)
 
 if __name__ == "__main__":
     app.debug = True
