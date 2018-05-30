@@ -64,8 +64,8 @@ def get_track(track, token):
     print "======================TRACK ID==============="
     print resp
     print "============================================="
-    track = resp["tracks"]["items"][0]["uri"].split(":")[2]
-    return track
+    track_id = resp["tracks"]["items"][0]["uri"].split(":")[2]
+    return track_id
 
 def add_track(track_id, token):
     authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}

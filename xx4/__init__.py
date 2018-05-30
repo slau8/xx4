@@ -68,19 +68,19 @@ def apitest():
     print "===========================access token========="
     return render_template("test.html")
 
-@app.route("/add_track", methods=["POST", 'GET'])
-def add_track():
+@app.route("/find_track", methods=["POST", 'GET'])
+def find_track():
     token = session.get("access_token")
-    print "===========================access token========="
-    print token
-    print "===========================access token========="
-    # track = request.form['track'] #need to confirm with html
-    #######TESTING###############
-    track = "Just the Way You Are"
-    track.replace(" ", "%20")
-    track_id = spotify.get_track(track, token)
-    spotify.add_track(track_id, token)
-    return render_template("test.html", track_id = track_id)
+    try:
+        title = request.args["title"]
+        print token
+        title.replace(" ", "%20")
+        track_id = spotify.get_track(title, token)
+        print "1"
+        # spotify.add_track(track_id, token)
+        return render_template("track.html", track_id = track_id)
+    except:
+        return render_template("search_track.html")
 
 if __name__ == "__main__":
     app.debug = True

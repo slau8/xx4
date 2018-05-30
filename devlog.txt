@@ -47,3 +47,6 @@ Finish getting access token
 
 joyceW -- 2018-05-28 11:47
 Discovered Spotipy api, will use for manipulating tracks for playlists
+
+helenY -- 2018-05-29 23:52
+Add front end for finding tracks
