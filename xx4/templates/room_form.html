@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block bodyclass %} bg-white {% endblock bodyclass %}
+
+{% block content %}
+<div class="card card-center">
+
+  <h1 class="card-header">CREATE A ROOM</h1>
+  <form action="/create_room" method="POST">
+
+    <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Name of Room" name="name" required>
+    </div>
+      <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Room Key" name="key" required>
+    </div>
+    <input class="btn btn-block" type="submit" value="CREATE" name="create">
+  </form><br>
+  <p>
+
+    <a href="/test" class="link-dotted">enter a room</a>
+  </p>
+</div>
+{% endblock content%}

@@ -54,13 +54,35 @@ def auth():
             session["username"] = input_name #Creates a new session
             global username
             username = input_name
-            return render_template("welcome.html", name = input_name)
+            return redirect(url_for("home_logged"))
         else:
             flash("Error: Wrong password")
             return render_template("login.html")
     else:
         flash("Error: Wrong username")
         return render_template("login.html")
+    
+@app.route("/home_logged")
+def home_logged():
+    if "username" in session:
+        return render_template("home_logged.html")
+
+@app.route("/room_form")
+def room_form():
+    if "username" in session:
+        return render_template("room_form.html")
+    
+@app.route("/create_room", methods = ['GET','POST'])
+def create_room():
+    if "username" in session:
+        input_name = request.form["name"]
+        input_key = request.form["key"]
+        if db.createRoom(input_name, session["username"], input_key):
+            flash("Sucess!")
+            return redirect(url_for("home_logged"))
+        else:
+            flash("Room name already taken :(")
+            return render_template("room_form.html")
 
 
 @app.route("/spotifyauth")
