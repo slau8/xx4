@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import spotify
-# from utils import database as db
+from utils import database as db
 import hashlib
 import os
 
@@ -20,48 +20,48 @@ def signup():
     return render_template("signup.html")
 
 @app.route("/login")
+def login():
     return render_template("login.html")
-'''
 
-@app.route("/createaccount")
-def create_account():
-	return render_template("createaccount.html")
-
-@app.route("/auth")
+@app.route("/create" , methods = ['GET','POST'])
 def check_creation():
-	user = request.args["username"]
-	if request.args["password1"] == request.args["password2"]:
-		pwd = request.args["password1"]
-		unique = make.createAcc(user,pwd)
-		if unique:
-			flash("Success!")
-			return redirect(url_for("hello_world"))
-		else:
-			flash ("Oops this user already exists")
-			return redirect(url_for("create_account"))
-	else:
-		flash("Passwords do not match :(")
-		return redirect(url_for("create_account"))
+    user = request.form["username"]
+    fname = request.form["fname"]
+    lname = request.form["lname"]
+    if request.form["password1"] == request.form["password2"]:
+        pwd = request.form["password1"]
+        unique = db.createAcc(user,pwd, fname, lname)
+        if unique:
+            flash("Success!")
+            return redirect(url_for("login"))
+        else:
+            flash ("Oops this user already exists")
+            return redirect(url_for("signup"))
+    else:
+        flash("Passwords do not match :(")
+        return redirect(url_for("signup"))
 
-@app.route("/welcome")
-def logged_in():
-   input_name = request.args["username"]
-   input_pass = request.args["password"]
-   hash_object = hashlib.sha224(input_pass)
-   hashed_pass = hash_object.hexdigest()
-   lookup = db.auth(input_name)
-   #Validation process, what went wrong (if anything)?
-   if lookup[0]:
-	  if hashed_pass == lookup[1][0]:
-		 session["username"] = input_name #Creates a new session
-		 global username
-		 username = input_name
-		 return render_template("welcome.html", name = input_name)
-	  else:
-		 return render_template("login.html", message = "Error: Wrong password")
-   else:
-	  return render_template("login.html", message =  "Error: Wrong username")
-'''
+@app.route("/auth", methods = ['GET','POST'])
+def auth():
+    input_name = request.form["username"]
+    input_pass = request.form["password"]
+    hash_object = hashlib.sha224(input_pass)
+    hashed_pass = hash_object.hexdigest()
+    lookup = db.auth(input_name)
+    #Validation process, what went wrong (if anything)?
+    if lookup[0]:
+        if hashed_pass == lookup[1][0]:
+            session["username"] = input_name #Creates a new session
+            global username
+            username = input_name
+            return render_template("welcome.html", name = input_name)
+        else:
+            flash("Error: Wrong password")
+            return render_template("login.html")
+    else:
+        flash("Error: Wrong username")
+        return render_template("login.html")
+
 
 @app.route("/spotifyauth")
 def spotifyauth():
