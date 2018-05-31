@@ -7,11 +7,11 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
-@app.route("/")
+@app.route("/test")
 def index():
     return render_template("home.html")
 
-@app.route("/test")
+@app.route("/")
 def test():
     return render_template("enter.html")
 

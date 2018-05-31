@@ -1,10 +1,4 @@
-{% extends "base.html" %}
-
-{% block bodyclass %} bg-white {% endblock bodyclass %}
-
-{% block right_nav %}
-<li class="nav-item space"><b>HOST CONSOLE</b></li>
-{% endblock right_nav %}
+{% extends "host.html" %}
 
 {% block content %}
 <div class="card card-center">
@@ -22,7 +16,7 @@
   </form><br>
   <p>
     <a href="/signup" class="link-dotted">sign up here</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/test" class="link-dotted">enter a room</a>
+    <a href="/" class="link-dotted">enter a room</a>
   </p>
 </div>
 {% endblock content%}

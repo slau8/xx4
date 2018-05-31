@@ -1,11 +1,9 @@
-{% extends "base.html" %}
-
-{% block bodyclass %} bg-white {% endblock bodyclass %}
+{% extends "host.html" %}
 
 {% block content %}
 <div class="card card-center">
 
-  <h1 class="card-header">SIGN UP FOR YOUR ROOM</h1>
+  <h1 class="card-header">Get Started</h1>
   <form action="/create" method="POST">
 
     <div class="form-group">
@@ -27,7 +25,7 @@
   </form><br>
   <p>
     <a href="/login" class="link-dotted">log in here</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/test" class="link-dotted">enter a room</a>
+    <a href="/" class="link-dotted">enter a room</a>
   </p>
 </div>
 {% endblock content%}
