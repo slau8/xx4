@@ -66,11 +66,15 @@ def auth():
 def home_logged():
     if "username" in session:
         return render_template("home_logged.html")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/room_form")
 def room_form():
     if "username" in session:
         return render_template("room_form.html")
+    else:
+        return redirect(url_for("login"))
     
 @app.route("/create_room", methods = ['GET','POST'])
 def create_room():
@@ -83,6 +87,8 @@ def create_room():
         else:
             flash("Room name already taken :(")
             return render_template("room_form.html")
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/spotifyauth")
