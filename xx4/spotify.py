@@ -56,6 +56,8 @@ def retrieve_token():
     resp = json.loads(req.text)
     return resp
 
+
+//retrieves a lot of possible track_ids
 def get_track(track, token):
     params = {"q": track, "type": "track"}
     authorization_header = {"Authorization": "Bearer " + token}
@@ -75,6 +77,7 @@ def get_track(track, token):
     print tracks
     return tracks
 
+//any user may add tracks to playlist
 def add_track(track_id, token):
     authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}
     params = {"name": "test"}
@@ -82,3 +85,27 @@ def add_track(track_id, token):
     resp = json.loads(req.text)
     print resp
     return resp
+
+
+#host creates new playlist
+def create_playlist(user_id, playlist_name, token):
+    authorization_header = {"Authorization": "Bearer " + token, "Content_Type": "application/json"}
+    params = {"name": playlist_name, "public": true}
+    req = req.post('https://api.spotify.com/v1/users/' + user_id + '/playlists')
+    resp = json.loads(req.text)
+    return resp
+
+#retrieves song in playlist
+def get_playlist(uder_id, playlist_id, token):
+    req = req.post('https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id)
+    resp = json.loads(req.text)
+    return resp
+
+#deletes song in playlist
+def delete(track, token):
+    auhthorization_header = {"Authorization" : "Bearer" + token, "Content-Type": "application/json"}
+    req = req.post('https://api.spotify.com/v1/users/'+user_id+'/playlists/' + playlist_id + '/tracks')
+    resp = json.loads(req/text)
+    return resp
+
+    

@@ -117,6 +117,18 @@ def find_track():
     except:
         return render_template("search_track.html")
 
+@app.route("/add_track", methods=['POST', 'GET'])
+def add_track():
+    token = session.get("access_token")
+    try:
+        track_id = request.form('track_id')
+        spotify.add_track(track_id, token)
+        flash('Successfully added!')
+        return redirect(url_for('test'))
+    except:
+        flash('We could not add the song. Try again.')
+        return redirect(url_for('find_track'))
+
 
 if __name__ == "__main__":
     app.debug = True
