@@ -61,11 +61,19 @@ def get_track(track, token):
     authorization_header = {"Authorization": "Bearer " + token}
     req = requests.get(API_URL + "/v1/search", params=params, headers=authorization_header)
     resp = json.loads(req.text)
-    print "======================TRACK ID==============="
-    print resp
-    print "============================================="
-    track_id = resp["tracks"]["items"][0]["uri"].split(":")[2]
-    return track_id
+    # print "======================TRACK ID==============="
+    #print resp
+    # print "============================================="
+    results = resp["tracks"]["items"]
+    #print results
+    tracks = []
+    for result in results:
+        track_name = result['album']['name']
+        track_artist = result['album']['artists'][0]['name']
+        track_id = result["uri"].split(":")[2]
+        tracks.append([track_name, track_artist, track_id])
+    print tracks
+    return tracks
 
 def add_track(track_id, token):
     authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}

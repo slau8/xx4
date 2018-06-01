@@ -1,3 +1,10 @@
 {{ msg }}
-{{ track_id }}
+Choose your track:
+{% for track in tracks %}
+<form action='/add_track' method='POST'>
+  <p>{{track[0]}} by {{track[1]}}</p>
+  <input type="hidden" name="track_id" value={{track[2]}}>
+  <button type="submit">Add</button>
+</form>
+{% endfor %}
 <a href="/find_track">Search again</a>

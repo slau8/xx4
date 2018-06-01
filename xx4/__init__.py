@@ -61,7 +61,7 @@ def auth():
     else:
         flash("Error: Wrong username")
         return render_template("login.html")
-    
+
 @app.route("/home_logged")
 def home_logged():
     if "username" in session:
@@ -75,7 +75,7 @@ def room_form():
         return render_template("room_form.html")
     else:
         return redirect(url_for("login"))
-    
+
 @app.route("/create_room", methods = ['GET','POST'])
 def create_room():
     if "username" in session:
@@ -111,14 +111,12 @@ def find_track():
     token = session.get("access_token")
     try:
         title = request.args["title"]
-        print token
         title.replace(" ", "%20")
-        track_id = spotify.get_track(title, token)
-        print "1"
-        # spotify.add_track(track_id, token)
-        return render_template("track.html", track_id = track_id)
+        tracks = spotify.get_track(title, token)
+        return render_template("track.html", tracks=tracks)
     except:
         return render_template("search_track.html")
+
 
 if __name__ == "__main__":
     app.debug = True
