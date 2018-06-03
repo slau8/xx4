@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{playlist['name']}}<br>
+{% for song in playlist['tracks']['items'] %}
+{{song['track']['name']}} by {{song['track']['artists'][0]['name']}}<br>
+added at {{song['added_at']}} <br>
+{% endfor %}
+Link: <a href={{playlist['external_urls']['spotify']}}>Click me</a>
+{% endblock content %}

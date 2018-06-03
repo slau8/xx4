@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 {{ msg }}
 Choose your track:
 {% for track in tracks %}
@@ -8,3 +11,4 @@ Choose your track:
 </form>
 {% endfor %}
 <a href="/find_track">Search again</a>
+{% endblock content %}
