@@ -36,7 +36,8 @@ a, a:hover, a:active, a:visited, a:focus {
 .link-dotted, .link-dotted:hover, .link-dotted:active, .link-dotted:visited {
   text-decoration: none;
   border-bottom: 1px dotted;
-  color: #ff3735;
+  color: #EDB528;
+  font-weight: bold;
 }
 
 .img-logo {
