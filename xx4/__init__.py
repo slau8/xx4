@@ -7,11 +7,11 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
-@app.route("/")
+@app.route("/test")
 def index():
     return render_template("home.html")
 
-@app.route("/test")
+@app.route("/")
 def test():
     return render_template("enter.html")
 
@@ -61,7 +61,29 @@ def auth():
     else:
         flash("Error: Wrong username")
         return render_template("login.html")
-    
+
+@app.route("/profile")
+def profile():
+    # if 'username' in session:
+    # token = session.get('access_token')
+        token = 'BQB5VWiFbG8R4hfVzfTalJSRx19M_HXkIFUXEJ6wqEcDKIc8FHI_cvG8eAOWZWxRPg0TuGP7ggG_LD8TCQ6NHO6CcOro2bWovjFE3iffA7VVHELWQA4rx01iLlefxb_M5BaYxhS0K5iIj98r21TA8hGrXrEiLd4JP2KjoLUjOxhOpB4'#session.get("access_token")
+        user_info = spotify.get_user_info(token)
+        playlists = spotify.get_all_playlists(token)
+        return render_template("profile.html", user_info=user_info, playlists=playlists)
+    # else:
+        # return redirect(url_for('login'))
+
+@app.route("/playlist", methods=["POST", "GET"])
+def playlist():
+#     if 'username' in session:
+# token = session.get('access_token')
+        token = 'BQB5VWiFbG8R4hfVzfTalJSRx19M_HXkIFUXEJ6wqEcDKIc8FHI_cvG8eAOWZWxRPg0TuGP7ggG_LD8TCQ6NHO6CcOro2bWovjFE3iffA7VVHELWQA4rx01iLlefxb_M5BaYxhS0K5iIj98r21TA8hGrXrEiLd4JP2KjoLUjOxhOpB4'#session.get("access_token")
+        playlist_id = request.args['playlist_id']
+        playlist = spotify.get_playlist(playlist_id, token)
+        return render_template('playlist.html', playlist=playlist)
+#     else:
+#         return redirect(url_for('login'))
+
 @app.route("/home_logged")
 def home_logged():
     if "username" in session:
@@ -75,7 +97,7 @@ def room_form():
         return render_template("room_form.html")
     else:
         return redirect(url_for("login"))
-    
+
 @app.route("/create_room", methods = ['GET','POST'])
 def create_room():
     if "username" in session:
@@ -111,14 +133,24 @@ def find_track():
     token = session.get("access_token")
     try:
         title = request.args["title"]
-        print token
         title.replace(" ", "%20")
-        track_id = spotify.get_track(title, token)
-        print "1"
-        # spotify.add_track(track_id, token)
-        return render_template("track.html", track_id = track_id)
+        tracks = spotify.get_track(title, token)
+        return render_template("track.html", tracks=tracks)
     except:
         return render_template("search_track.html")
+
+@app.route("/add_track", methods=['POST', 'GET'])
+def add_track():
+    token = session.get("access_token")
+    try:
+        track_id = request.form('track_id')
+        spotify.add_track(track_id, token)
+        flash('Successfully added!')
+        return redirect(url_for('test'))
+    except:
+        flash('We could not add the song. Try again.')
+        return redirect(url_for('find_track'))
+
 
 if __name__ == "__main__":
     app.debug = True
