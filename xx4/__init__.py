@@ -33,7 +33,7 @@ def check_creation():
         unique = db.createAcc(user,pwd, fname, lname)
         if unique:
             flash("Success!")
-            return redirect(url_for("login"))
+            return redirect(url_for("spotifyauth"))
         else:
             flash ("Oops this user already exists")
             return redirect(url_for("signup"))
