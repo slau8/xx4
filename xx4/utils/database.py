@@ -18,7 +18,7 @@ def db_setup():
     global db
     open_db()
     c_dup = db.cursor()
-    c_dup.execute("CREATE TABLE IF NOT EXISTS hosts(username TEXT PRIMARY KEY, fname TEXT, lname TEXT, pass TEXT, key TEXT)")
+    c_dup.execute("CREATE TABLE IF NOT EXISTS hosts(username TEXT PRIMARY KEY, fname TEXT, lname TEXT, pass TEXT, access_key TEXT, refresh_token TEXT)")
     c_dup.execute("CREATE TABLE IF NOT EXISTS rooms(name TEXT PRIMARY KEY, key TEXT, host_user TEXT, songs TEXT)")
 
     close()
@@ -29,16 +29,15 @@ def db_setup():
 
 #Create an account
 #-----------------
-def createAcc(user, passw, fname, lname, key = "0000"):
+def createAcc(user, passw, fname, lname, key = "0000", token = "0000"):
     global db
     try:
         open_db()
         c_dup = db.cursor()
         hash_object = hashlib.sha224(passw)
         hashed_pass = hash_object.hexdigest()
-        command = "INSERT INTO hosts VALUES(?,?,?,?,?)"
-        c_dup.execute(command, (user, fname, lname, hashed_pass, key))
-        
+        command = "INSERT INTO hosts VALUES(?,?,?,?,?,?)"
+        c_dup.execute(command, (user, fname, lname, hashed_pass, key, token))
         close()
     except:
         print "Error in Account Creation: Username already taken."
@@ -52,7 +51,7 @@ def auth(user):
     response = []
     open_db()
     c_dup = db.cursor()
-    command = command = "SELECT pass FROM hosts WHERE username = \"%s\"" % (user)
+    command = "SELECT pass FROM hosts WHERE username = \"%s\"" % (user)
     print command
     c_dup.execute(command)
     pwds = c_dup.fetchall()
@@ -67,7 +66,36 @@ def auth(user):
     return response
 
 #==========================================================
-#Refresh Acess Tokens
+#Refresh Tokens
+
+def addAccess(user, token):
+    open_db()
+    c_dup = db.cursor()
+    command = "UPDATE hosts SET access_key =  \"%s\" WHERE name = \"%s\"" % (name, token)
+    c_dup.execute(command)
+    close()
+    
+def addRefresh(user, token):
+    open_db()
+    c_dup = db.cursor()
+    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE name = \"%s\"" % (name, token)
+    c_dup.execute(command)
+    close()
+    
+def getAccess(user):
+    open_db()
+    c_dup = db.cursor()
+    command = "SELECT access_key FROM hosts WHERE username = \"%s\"" % (user)
+    c_dup.execute(command)
+    pwds = c_dup.fetchall()
+    close()
+    
+def getRefresh(user):
+    open_db()
+    c_dup = db.cursor()
+    command = "SELECT refresh_token FROM hosts WHERE username = \"%s\"" % (user)
+    c_dup.execute(command)
+    close()
 
 #Rooms
 #==========================================================

@@ -121,10 +121,10 @@ def spotifyauth():
 @app.route("/apitest")
 def apitest():
     d = spotify.retrieve_token()
-    session["access_token"] = d["access_token"]
-    # db.update_token(d["refresh_token"])
+    db.addRefresh(d["refresh_token"])
+    db.addAccess(d["access_token"])
     print "===========================session token========="
-    print session.get('access_token')
+    #print session.get('access_token')
     print "===========================access token========="
     return render_template("test.html")
 
