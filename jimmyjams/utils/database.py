@@ -71,14 +71,16 @@ def auth(user):
 def addAccess(user, token):
     open_db()
     c_dup = db.cursor()
-    command = "UPDATE hosts SET access_key =  \"%s\" WHERE name = \"%s\"" % (name, token)
+    print token + "sdjfl;ksajfl"
+    command = "UPDATE hosts SET access_key =  \"%s\" WHERE username = \"%s\"" % (str(token), user)
+    print command
     c_dup.execute(command)
     close()
     
 def addRefresh(user, token):
     open_db()
     c_dup = db.cursor()
-    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE name = \"%s\"" % (name, token)
+    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE username = \"%s\"" % (str(token), user)
     c_dup.execute(command)
     close()
     
@@ -137,10 +139,10 @@ def addSongs(name, key, song):
     
 #==========================================================
 #TESTS
-#db_setup()
+db_setup()
 #createAcc("jack", "Jack", "Boy", "jackpwd")
 #createAcc("jack", "lol", "peep", "ksjdlf")
 #print auth("jack")
 #createRoom("lol", "tim", "0129")
-addSongs("lol", "0129", "peep")
-
+#addSongs("lol", "0129", "peep")
+addAccess("lol", "djsafkjl")
