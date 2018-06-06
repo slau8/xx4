@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-Choose your track:
+<h2 class="text-align">Select a Song</h2>
+
 {% for track in tracks %}
-<form action='/add_track' method='POST'>
-  <p>{{track[0]}} by {{track[1]}}</p>
-  <input type="hidden" name="track_id" value={{track[2]}}>
-  <button type="submit">Add</button>
-</form>
+  <div class="card card-stack" id="{{ rankings[loop.index][0] }}">
+    <h1 style="text-align: left;">{{track[0]}} by {{track[1]}}
+      <span style="float: right;">
+	<form action="/add_track" method="POST">
+	  <input type="hidden" name="track_id" value={{track[2]}}>
+	  <button type="submit">+</button>
+	</form>
+      </span>
+    </h1>
+  </div>
 {% endfor %}
-<a href="/find_track">Search again</a>
+
 {% endblock content %}
