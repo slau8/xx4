@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ msg }}
 Choose your track:
 {% for track in tracks %}
 <form action='/add_track' method='POST'>

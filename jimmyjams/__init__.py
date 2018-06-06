@@ -132,18 +132,18 @@ def apitest():
 
 @app.route("/find_track", methods=["POST", 'GET'])
 def find_track():
-    token = session.get("access_token")
+    token = db.getAccess(session.get("username"))
     try:
         title = request.args["title"]
         title.replace(" ", "%20")
         tracks = spotify.get_track(title, token)
-        return render_template("track.html", tracks=tracks)
+        return render_template("track_results.html", tracks=tracks)
     except:
         return render_template("search_track.html")
 
 @app.route("/add_track", methods=['POST', 'GET'])
 def add_track():
-    token = session.get("access_token")
+    token = db.getAccess(session.get("username"))
     try:
         track_id = request.form('track_id')
         spotify.add_track(track_id, token)

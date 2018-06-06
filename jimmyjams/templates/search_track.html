@@ -1,5 +1,18 @@
-<form action="/find_track">
-    Song title:<br>
-    <input type="text" name="title"><br>
-</form>
-<a href="/">Home</a>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card card-center">
+  <h1 class="card-header">Search for Song</h1>
+  <form action="/find_track" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Song Name" name="song_name" required>
+    </div>
+    <input class="btn btn-block" type="submit" value="SEARCH" name="search_song">
+  </form><br>
+<!--  <div class="row text-center">
+    <div class="col-sm-12">
+    <a href="/signup" class="link-dotted">or create your own room</a>
+    </div>
+  </div>-->
+</div>
+{% endblock content %}
