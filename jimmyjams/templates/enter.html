@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1 class="color-shadow text-center"><b>Welcome to Jimmy Jams</b></h1>
 <div class="card card-center">
   <h1 class="card-header">Start Jamming</h1>
   <form action="/" method="POST">
@@ -12,8 +13,10 @@
     </div>
     <input class="btn btn-block" type="submit" value="ENTER MUSIC ROOM" name="enter">
   </form><br>
-  <p>
-    <a href="/signup" class="link-dotted">create your own room</a>
-  </p>
+  <div class="row text-center">
+    <div class="col-sm-12">
+    <a href="/signup" class="link-dotted">or create your own room</a>
+    </div>
+  </div>
 </div>
 {% endblock content %}

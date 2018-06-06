@@ -83,8 +83,8 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .color-shadow {
-  color: 333333;
-  text-shadow: 2px 2px #ff9966;
+  color: #EDB528;
+  text-shadow: 2px 2px #EBEEF4;
 }
 
 .space {

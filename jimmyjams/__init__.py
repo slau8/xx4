@@ -32,13 +32,13 @@ def check_creation():
         pwd = request.form["password1"]
         unique = db.createAcc(user,pwd, fname, lname)
         if unique:
-            flash("Success!")
+            flash("Welcome! Login here.")
             return redirect(url_for("spotifyauth"))
         else:
-            flash ("Oops this user already exists")
+            flash ("Sorry, this username already exists. Try again.")
             return redirect(url_for("signup"))
     else:
-        flash("Passwords do not match :(")
+        flash("Passwords do not match. Try again.")
         return redirect(url_for("signup"))
 
 @app.route("/auth", methods = ['GET','POST'])
@@ -56,10 +56,10 @@ def auth():
             username = input_name
             return redirect(url_for("home_logged"))
         else:
-            flash("Error: Wrong password")
+            flash("Error: Incorrect password.")
             return render_template("login.html")
     else:
-        flash("Error: Wrong username")
+        flash("Error: Incorrect username.")
         return render_template("login.html")
 
 @app.route("/profile")
