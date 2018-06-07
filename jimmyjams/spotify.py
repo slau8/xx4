@@ -101,36 +101,56 @@ def get_track(track, token):
     return tracks
 
 # any user may add tracks to playlist
-def add_track(track_id, token):
+def add_track(track_id, playlist_id, token):
+    uri = "spotify:track:" + track_id
     authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}
-    params = {"name": "test"}
+    params = {"uris": uri}
     user_id = get_user_info(token)['id']
-    req = requests.post('https://api.spotify.com/v1/users/' + user_id + '/playlists', params=params, headers=authorization_header)
+    url = 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks'
+    req = requests.post(url, params=params, headers=authorization_header)
     resp = json.loads(req.text)
     print resp
     return resp
 
 #host creates new playlist
-def create_playlist(user_id, playlist_name, token):
-    authorization_header = {"Authorization": "Bearer " + token, "Content_Type": "application/json"}
-    params = {"name": playlist_name, "public": true}
+def create_playlist(playlist_name, token):
+    authorization_header = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}
+    params = {"name": playlist_name}
     user_id = get_user_info(token)['id']
-    req = req.post('https://api.spotify.com/v1/users/' + user_id + '/playlists')
+    url = 'https://api.spotify.com/v1/users/' + user_id + '/playlists'
+    req = requests.post(url, data=json.dumps(params), headers=authorization_header)
     resp = json.loads(req.text)
-    return resp
+    # print "=====================create playlist================="
+    # print resp["id"]
+    # print "====================================================="
+    return resp["id"]
 
 #retrieves song in playlist
 def get_playlist(playlist_id, token):
     authorization_header = {"Authorization": "Bearer " + token}
-    req = request.get('https://api.spotify.com/v1/users/' + get_user_info(token)['id'] + '/playlists/' + playlist_id, headers=authorization_header)
+    req = requests.get('https://api.spotify.com/v1/users/' + get_user_info(token)['id'] + '/playlists/' + playlist_id, headers=authorization_header)
     resp = json.loads(req.text)
+    print resp
     return resp
 
 #deletes song in playlist
-def delete(track, token):
-    auhthorization_header = {"Authorization" : "Bearer " + token, "Content-Type": "application/json"}
-    req = request.post('https://api.spotify.com/v1/users/'+user_id+'/playlists/' + playlist_id + '/tracks')
+def delete_track(track_id, playlist_id, token):
+    authorization_header = {"Authorization" : "Bearer " + token, "Content-Type": "application/json"}
+    user_id = get_user_info(token)['id']
+    uri = "spotify:track:" + track_id
+    params = {"tracks": [{"uri": uri}]}
+    url = 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks'
+    method = "delete"
+    req = requests.request(method, url, data=json.dumps(params), headers=authorization_header)
     resp = json.loads(req.text)
+    print resp
     return resp
 
-#get_playlist('2n6iokmwFoSk2sa2PQ4Ijs', 'BQBaAHSJZChndQHq4woe6XWdXtRi4ecuFz6LPlNAOhAvaN_A-mcv6ZMEo7Q4zZTWyjDkdvarVzekQ8k1pKRhgQwHNTa8En_0hXOVEUqV64k0RIJ0keMCPu6WcKyV6pUk_7g3ilJBvOOgxAVL3TXKQe5uLTosU9PZ_Y3ye0YL7DmfG1Q')
+################TESTING // ALL FXNS WORKING#############
+# get_track('hello', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+# add_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+# create_playlist("YURRR", 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+# get_playlist('7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+# get_all_playlists('BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+#add_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+# delete_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
