@@ -7,6 +7,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
+
 @app.route("/test")
 def index():
     return render_template("home.html")
@@ -55,8 +56,6 @@ def auth():
     if lookup[0]:
         if hashed_pass == lookup[1][0]:
             session["username"] = input_name #Creates a new session
-            global username
-            username = input_name
             return redirect(url_for("home_logged"))
         else:
             flash("Error: Incorrect password.")
@@ -68,8 +67,8 @@ def auth():
 @app.route("/profile")
 def profile():
     if 'username' in session:
-        token = session.get('access_token')
-        token = 'BQB5VWiFbG8R4hfVzfTalJSRx19M_HXkIFUXEJ6wqEcDKIc8FHI_cvG8eAOWZWxRPg0TuGP7ggG_LD8TCQ6NHO6CcOro2bWovjFE3iffA7VVHELWQA4rx01iLlefxb_M5BaYxhS0K5iIj98r21TA8hGrXrEiLd4JP2KjoLUjOxhOpB4'#session.get("access_token")
+        token =  db.getAccess(session.get("username"))
+        #token = 'BQB5VWiFbG8R4hfVzfTalJSRx19M_HXkIFUXEJ6wqEcDKIc8FHI_cvG8eAOWZWxRPg0TuGP7ggG_LD8TCQ6NHO6CcOro2bWovjFE3iffA7VVHELWQA4rx01iLlefxb_M5BaYxhS0K5iIj98r21TA8hGrXrEiLd4JP2KjoLUjOxhOpB4'#session.get("access_token")
         user_info = spotify.get_user_info(token)
         playlists = spotify.get_all_playlists(token)
         return render_template("profile.html", user_info=user_info, playlists=playlists)
@@ -79,7 +78,7 @@ def profile():
 @app.route("/playlist", methods=["POST", "GET"])
 def playlist():
     if 'username' in session:
-        token = session.get('access_token')
+        token = db.getAccess(session.get("username"))
         session.get("access_token")
         playlist_id = request.args['playlist_id']
         playlist = spotify.get_playlist(playlist_id, token)
@@ -119,17 +118,25 @@ def create_room():
 @app.route("/spotifyauth")
 def spotifyauth():
     url = spotify.auth_app()
+    global username
+    username = session.get("username")
+    print "SPOTIFY AUTH " + username
     return redirect(url)
 
 @app.route("/apitest")
 def apitest():
     d = spotify.retrieve_token()
-    db.addRefresh(session.get("username"), d["refresh_token"])
-    db.addAccess(session.get("username"), d["access_token"])
-    print "===========================access token========="
-    print session.get('access_token')
-    print "================================================"
-    return render_template("test.html")
+    if username:
+        session["username"] = username 
+        db.addRefresh(session.get("username"), d["refresh_token"])
+        db.addAccess(session.get("username"), d["access_token"])
+        print "===========================access token========="
+        print session.get('access_token')
+        print "================================================"
+        return render_template("test.html")
+    else:
+        flash("Please Login First")
+        return render_template("login.html")
 
 @app.route("/find_track", methods=["POST", 'GET'])
 def find_track():
@@ -153,6 +160,7 @@ def add_track():
     except:
         flash('We could not add the song. Try again.')
         return redirect(url_for('find_track'))
+
 
 
 if __name__ == "__main__":
