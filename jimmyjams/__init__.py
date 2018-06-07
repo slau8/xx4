@@ -32,6 +32,9 @@ def check_creation():
         pwd = request.form["password1"]
         unique = db.createAcc(user,pwd, fname, lname)
         if unique:
+            session['username'] = user
+            print 'asdfjasdjfsdjf<><>' + user
+            print '***' + session['username']
             flash("Welcome! Login here.")
             return redirect(url_for("spotifyauth"))
         else:
@@ -123,8 +126,6 @@ def apitest():
     d = spotify.retrieve_token()
     db.addRefresh(session.get("username"), d["refresh_token"])
     db.addAccess(session.get("username"), d["access_token"])
-    print "===========================session token========="
-    #print session.get('access_token')
     print "===========================access token========="
     print session.get('access_token')
     print "================================================"

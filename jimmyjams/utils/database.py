@@ -71,19 +71,18 @@ def auth(user):
 def addAccess(user, token):
     open_db()
     c_dup = db.cursor()
-    print token + "sdjfl;ksajfl"
-    command = "UPDATE hosts SET access_key =  \"%s\" WHERE username = \"%s\"" % (str(token), user)
+    command = "UPDATE hosts SET access_key =  \"%s\" WHERE username = \"%s\"" % (token, user)
     print command
     c_dup.execute(command)
     close()
-    
+
 def addRefresh(user, token):
     open_db()
     c_dup = db.cursor()
-    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE username = \"%s\"" % (str(token), user)
+    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE username = \"%s\"" % (token, user)
     c_dup.execute(command)
     close()
-    
+
 def getAccess(user):
     open_db()
     c_dup = db.cursor()
@@ -91,7 +90,7 @@ def getAccess(user):
     c_dup.execute(command)
     pwds = c_dup.fetchall()
     close()
-    
+
 def getRefresh(user):
     open_db()
     c_dup = db.cursor()
@@ -136,7 +135,7 @@ def addSongs(name, key, song):
         return False
     return True
 
-    
+
 #==========================================================
 #TESTS
 db_setup()
@@ -145,4 +144,4 @@ db_setup()
 #print auth("jack")
 #createRoom("lol", "tim", "0129")
 #addSongs("lol", "0129", "peep")
-addAccess("lol", "djsafkjl")
+# addAccess("lol", "djsafkjl")
