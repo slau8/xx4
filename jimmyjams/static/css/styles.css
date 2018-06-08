@@ -254,7 +254,18 @@ a, a:hover, a:active, a:visited, a:focus {
   background-color: #143642;
 }
 
+.btn-block-yellow {
+  margin-left: 0px;
+  margin-right: 0px;
+  color: #EBEEF4;
+  background-color: #EDB528;
+}
+
 .btn-block:hover, .btn-block:active, .btn-block:focus {
+  color: #EBEEF4;
+}
+
+.btn-block-yellow:hover, .btn-block-yellow:active, .btn-block-yellow:focus {
   color: #EBEEF4;
 }
 

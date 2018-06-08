@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Welcome to Jimmy Jams</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="page-header">
-	<h2>Jimmy Jams&nbsp;&nbsp;<small>brought to you by xx4</small></h2>
-      </div>
-        
-        Create a room <a href="/room_form">here!</a>
-    </div>
-  </body>
-  </html>
+{% extends "host.html" %}
+
+
+
+{% block content %}
+
+<h2 class="text-align">Your Rooms</h2>
+
+<a class="btn btn-block-yellow" href="/room_form">Create New Room</a>
+{% for room in rooms %}
+<div class="card card-stack">
+  <h3 style="text-align: left;"><!--Room name--></h3>
+  <span style="float: right;">
+    <form action=<!--unsyer--> method="POST">
+      <input type="hidden" name="room" value=<!-- room -->>
+      <a class="btn" href=<!--link-->>View Playlist</a>
+       <input class="btn" type="submit" value="View Playlist" name="view_playlist">
+   </form>
+  </span>
+</div>
+{% endfor %}
+{% endblock content %}
