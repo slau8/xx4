@@ -185,6 +185,7 @@ def find_track():
             tracks = spotify.get_track(title, token)
             return render_template("track_results.html", tracks = tracks)
         except:
+            print "error"
             return render_template("search_track.html")
     else:
         flash("Sign Into A Room First!")
@@ -200,12 +201,15 @@ def add_track():
             track_name = request.form['track_name'] 
             track_artist = request.form['track_artist']
             track_id = request.form['track_id']
-            #Not sure why this isnt working
-            spotify.add_track(track_id, token)
-            room_name = session.get("room_name")
             user = session.get("name")
+            room_name = session.get("room")
             insert = track_name + ";" + track_artist + ";" + user
             db.addSongs(room_name, insert)
+            
+            #Not sure why this isnt working
+            spotify.add_track(track_id, token)
+            
+            
             flash('Successfully added!')
             return redirect(url_for('test'))
         except:

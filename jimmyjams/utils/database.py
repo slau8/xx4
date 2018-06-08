@@ -138,10 +138,13 @@ def addSongs(name, song):
     try:
         open_db()
         c_dup = db.cursor()
-        command = "SELECT songs FROM rooms WHERE name = ?" 
+        command = "SELECT songs FROM rooms WHERE name = ?"
         c_dup.execute(command, (name, ))
+        print name
+        print song
         songs = c_dup.fetchall()[0][0]
         songs = songs + song + ", "
+        print songs
         command = "UPDATE rooms SET songs =  ? WHERE name = ?"
         c_dup = db.cursor()
         c_dup.execute(command, (songs, name,))
@@ -195,5 +198,5 @@ def getToken(name):
 #createAcc("jack", "lol", "peep", "ksjdlf")
 #auth("jack")
 #createRoom("lol", "tim", "0129")
-#addSongs("lol", "0129", "peep")
+#addSongs("jeez", "peep")
 # addAccess("lol", "djsafkjl")
