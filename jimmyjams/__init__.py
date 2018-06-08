@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-import spotify
+from utils import spotify 
 from utils import database as db
 import hashlib
 import os
@@ -15,6 +15,38 @@ def index():
 @app.route("/")
 def test():
     return render_template("enter.html")
+
+@app.route("/enter", methods = ['GET','POST'])
+def enter():
+    name = request.form["name"].strip()
+    if name.find(",") > -1 or name.find(";") > -1:
+        flash('Invalid Characters in Name (No "," or ";")')
+        return redirect(url_for("test"))
+    
+    room_name = request.form["room_name"].strip()
+    key = request.form["key"].strip()
+    
+    if db.accessRoom(room_name, key):
+        session["name"] = name
+        session['room'] = room_name
+        return redirect(url_for("room"))
+    else:
+        flash('Wrong room name or key')
+        return redirect(url_for("test"))
+
+@app.route("/room")
+def room():
+    if 'room' in session:
+        songs = db.getSongs(session.get("room")).split(",")
+        song_list = []
+        for each in songs:
+            song_list.append(each.split(";"))
+        return render_template("room.html", song_list = song_list)
+    else:
+        flash("Sign Into A Room First!")
+        return redirect(url_for("test"))
+
+    
 
 @app.route("/signup")
 def signup():
@@ -98,7 +130,8 @@ def room_form():
     if "username" in session:
         return render_template("room_form.html")
     else:
-        return redirect(url_for("login"))
+        flash("Please Login First")
+        return render_template("login.html")
 
 @app.route("/create_room", methods = ['GET','POST'])
 def create_room():
@@ -117,49 +150,70 @@ def create_room():
 
 @app.route("/spotifyauth")
 def spotifyauth():
-    url = spotify.auth_app()
-    global username
-    username = session.get("username")
-    print "SPOTIFY AUTH " + username
-    return redirect(url)
+    if "username" in session:
+        url = spotify.auth_app()
+        global username
+        username = session.get("username")
+        print "SPOTIFY AUTH " + username
+        return redirect(url)
+    else:
+        flash("Please Login First")
+        return render_template("login.html")
 
 @app.route("/apitest")
 def apitest():
     d = spotify.retrieve_token()
-    if username:
+    if username != "":
         session["username"] = username 
         db.addRefresh(session.get("username"), d["refresh_token"])
         db.addAccess(session.get("username"), d["access_token"])
         print "===========================access token========="
         print session.get('access_token')
         print "================================================"
-        return render_template("test.html")
+        return redirect(url_for("home_logged"))
     else:
         flash("Please Login First")
         return render_template("login.html")
 
 @app.route("/find_track", methods=["POST", 'GET'])
 def find_track():
-    token = db.getAccess(session.get("username"))
-    try:
-        title = request.args["title"]
-        title.replace(" ", "%20")
-        tracks = spotify.get_track(title, token)
-        return render_template("track_results.html", tracks=tracks)
-    except:
-        return render_template("search_track.html")
+    if "room" in session:
+        token = db.getToken(session.get("room"))
+        try:
+            title = request.form["song_name"]
+            title.replace(" ", "%20")
+            tracks = spotify.get_track(title, token)
+            return render_template("track_results.html", tracks = tracks)
+        except:
+            return render_template("search_track.html")
+    else:
+        flash("Sign Into A Room First!")
+        return redirect(url_for("test"))
+        
 
 @app.route("/add_track", methods=['POST', 'GET'])
 def add_track():
-    token = db.getAccess(session.get("username"))
-    try:
-        track_id = request.form('track_id')
-        spotify.add_track(track_id, token)
-        flash('Successfully added!')
-        return redirect(url_for('test'))
-    except:
-        flash('We could not add the song. Try again.')
-        return redirect(url_for('find_track'))
+    if "room" in session:
+        token = db.getToken(session.get("room"))
+        try:
+            #wont print out full name? 
+            track_name = request.form['track_name'] 
+            track_artist = request.form['track_artist']
+            track_id = request.form['track_id']
+            #Not sure why this isnt working
+            spotify.add_track(track_id, token)
+            room_name = session.get("room_name")
+            user = session.get("name")
+            insert = track_name + ";" + track_artist + ";" + user
+            db.addSongs(room_name, insert)
+            flash('Successfully added!')
+            return redirect(url_for('test'))
+        except:
+            flash('We could not add the song. Try again.')
+            return redirect(url_for('find_track'))
+    else:
+        flash("Sign Into A Room First!")
+        return redirect(url_for("test"))
 
 
 

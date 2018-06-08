@@ -51,9 +51,9 @@ def auth(user):
     response = []
     open_db()
     c_dup = db.cursor()
-    command = "SELECT pass FROM hosts WHERE username = \"%s\"" % (user)
+    command = "SELECT pass FROM hosts WHERE username = ?" 
     print command
-    c_dup.execute(command)
+    c_dup.execute(command, (user,))
     pwds = c_dup.fetchall()
     if len(pwds) == 0:
         response.append(False)
@@ -71,38 +71,41 @@ def auth(user):
 def addAccess(user, token):
     open_db()
     c_dup = db.cursor()
-    command = "UPDATE hosts SET access_key =  \"%s\" WHERE username = \"%s\"" % (token, user)
+    command = "UPDATE hosts SET access_key =  ? WHERE username = ?"
     print command
-    c_dup.execute(command)
+    c_dup.execute(command,  (token, user,))
     close()
 
 def addRefresh(user, token):
     open_db()
     c_dup = db.cursor()
-    command = "UPDATE hosts SET refresh_token =  \"%s\" WHERE username = \"%s\"" % (token, user)
-    c_dup.execute(command)
+    command = "UPDATE hosts SET refresh_token =  ? WHERE username = ?"
+    c_dup.execute(command, (token, user,))
     close()
 
 def getAccess(user):
     open_db()
     c_dup = db.cursor()
-    command = "SELECT access_key FROM hosts WHERE username = \"%s\"" % (user)
-    c_dup.execute(command)
-    pwds = c_dup.fetchall()
+    command = "SELECT access_key FROM hosts WHERE username = ?" 
+    c_dup.execute(command, (user,))
+    token = c_dup.fetchall()[0][0]
     close()
+    return token
 
 def getRefresh(user):
     open_db()
     c_dup = db.cursor()
-    command = "SELECT refresh_token FROM hosts WHERE username = \"%s\"" % (user)
-    c_dup.execute(command)
+    command = "SELECT refresh_token FROM hosts WHERE username = ?"
+    c_dup.execute(command, (user,))
+    token = c_dup.fetchall()[0][0]
     close()
+    return token
 
 #Rooms
 #==========================================================
 #Create a room
 #-----------------
-def createRoom(name, user, key = "0000"):
+def createRoom(name, user, key):
     try:
         open_db()
         c_dup = db.cursor()
@@ -114,34 +117,83 @@ def createRoom(name, user, key = "0000"):
         return False
     return True
 
-#Add songs
+#Access a room
 #-----------------
-
-def addSongs(name, key, song):
+def accessRoom(name, key):
     try:
         open_db()
         c_dup = db.cursor()
-        command = "SELECT songs FROM rooms WHERE name = \"%s\" AND key = \"%s\" " % (name, key)
-        c_dup.execute(command)
-        songs = c_dup.fetchall()[0][0]
-        songs = songs + song + ", "
-        command = "UPDATE rooms SET songs =  \"%s\" WHERE name = \"%s\" AND key = \"%s\" " % (songs, name, key)
-
-        c_dup = db.cursor()
-        c_dup.execute(command)
+        command = "SELECT name FROM rooms WHERE name = ? AND key = ?" 
+        c_dup.execute(command, (name, key,))
         close()
     except:
-        print "Wrong Pin or Name"
+        print "Wrong name or key"
         return False
     return True
+
+#Add songs
+#-----------------
+
+def addSongs(name, song):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT songs FROM rooms WHERE name = ?" 
+        c_dup.execute(command, (name, ))
+        songs = c_dup.fetchall()[0][0]
+        songs = songs + song + ", "
+        command = "UPDATE rooms SET songs =  ? WHERE name = ?"
+        c_dup = db.cursor()
+        c_dup.execute(command, (songs, name,))
+        close()
+    except:
+        print "Wrong Name"
+        return False
+    return True
+
+#Get songs
+#-----------------
+
+def getSongs(name):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT songs FROM rooms WHERE name = ?"
+        c_dup.execute(command, (name, ))
+        songs = c_dup.fetchall()[0][0]
+        close()
+    except:
+        print "Wrong Name"
+        return ""
+    return songs
+
+#Get token
+#-----------------
+
+def getToken(name):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT host_user FROM rooms WHERE name = ?"
+        c_dup.execute(command, (name, ))
+        user = c_dup.fetchall()[0][0]
+        close()
+        
+        key = getAccess(user)
+        
+    except:
+        print "Wrong Name"
+        return ""
+    return key
+
 
 
 #==========================================================
 #TESTS
-db_setup()
+#db_setup()
 #createAcc("jack", "Jack", "Boy", "jackpwd")
 #createAcc("jack", "lol", "peep", "ksjdlf")
-#print auth("jack")
+#auth("jack")
 #createRoom("lol", "tim", "0129")
 #addSongs("lol", "0129", "peep")
 # addAccess("lol", "djsafkjl")

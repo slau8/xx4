@@ -110,6 +110,7 @@ def get_track(track, token):
     print tracks
     return tracks
 
+
 # any user may add tracks to playlist
 def add_track(track_id, playlist_id, token):
     uri = "spotify:track:" + track_id
