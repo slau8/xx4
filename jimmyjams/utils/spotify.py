@@ -145,6 +145,19 @@ def get_playlist(playlist_id, token):
     print resp
     return resp
 
+#gets all playlist info of rooms
+def get_playlists(playlists, token):
+    info = []
+    for playlist in playlists:
+        room = {}
+        room['playlist_id'] = playlist[0]
+        playlist_json = get_playlist(playlist[0], token)
+        room['name'] = playlist_json['name']
+        room['description'] = playlist_json['description']
+        room['url'] = playlist_json['external_urls']['spotify']
+        info.append(room)
+    return info
+
 #deletes song in playlist
 def delete_track(track_id, playlist_id, token):
     authorization_header = {"Authorization" : "Bearer " + token, "Content-Type": "application/json"}

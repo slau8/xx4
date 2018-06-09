@@ -19,7 +19,7 @@ def db_setup():
     open_db()
     c_dup = db.cursor()
     c_dup.execute("CREATE TABLE IF NOT EXISTS hosts(username TEXT PRIMARY KEY, fname TEXT, lname TEXT, pass TEXT, access_key TEXT, refresh_token TEXT)")
-    c_dup.execute("CREATE TABLE IF NOT EXISTS rooms(name TEXT PRIMARY KEY, key TEXT, host_user TEXT, songs TEXT)")
+    c_dup.execute("CREATE TABLE IF NOT EXISTS rooms(name TEXT PRIMARY KEY, key TEXT, host_user TEXT, songs TEXT, playlist_id TEXT)")
 
     close()
     return
@@ -51,7 +51,7 @@ def auth(user):
     response = []
     open_db()
     c_dup = db.cursor()
-    command = "SELECT pass FROM hosts WHERE username = ?" 
+    command = "SELECT pass FROM hosts WHERE username = ?"
     print command
     c_dup.execute(command, (user,))
     pwds = c_dup.fetchall()
@@ -86,7 +86,7 @@ def addRefresh(user, token):
 def getAccess(user):
     open_db()
     c_dup = db.cursor()
-    command = "SELECT access_key FROM hosts WHERE username = ?" 
+    command = "SELECT access_key FROM hosts WHERE username = ?"
     c_dup.execute(command, (user,))
     token = c_dup.fetchall()[0][0]
     close()
@@ -105,12 +105,12 @@ def getRefresh(user):
 #==========================================================
 #Create a room
 #-----------------
-def createRoom(name, user, key):
+def createRoom(name, user, key, playlist_id):
     try:
         open_db()
         c_dup = db.cursor()
-        command = "INSERT INTO rooms VALUES(?,?,?,?)"
-        c_dup.execute(command, (name, key, user, ""))
+        command = "INSERT INTO rooms VALUES(?,?,?,?,?)"
+        c_dup.execute(command, (name, key, user, "", playlist_id))
         close()
     except:
         print "Error in Room Creation: Room name already taken."
@@ -123,13 +123,31 @@ def accessRoom(name, key):
     try:
         open_db()
         c_dup = db.cursor()
-        command = "SELECT name FROM rooms WHERE name = ? AND key = ?" 
+        command = "SELECT name FROM rooms WHERE name = ? AND key = ?"
         c_dup.execute(command, (name, key,))
         close()
     except:
         print "Wrong name or key"
         return False
     return True
+
+#Get host's rooms
+#-----------------
+def getRooms(username):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT playlist_id FROM rooms WHERE host_user = ?"
+        c_dup.execute(command, (username, ))
+        rooms = c_dup.fetchall()
+        close()
+    except:
+        print "Wrong host username"
+        return ""
+    print "===================ROOMS===================="
+    print rooms
+    print "============================================"
+    return rooms
 
 #Add songs
 #-----------------
@@ -181,9 +199,9 @@ def getToken(name):
         c_dup.execute(command, (name, ))
         user = c_dup.fetchall()[0][0]
         close()
-        
+
         key = getAccess(user)
-        
+
     except:
         print "Wrong Name"
         return ""

@@ -1,22 +1,24 @@
 {% extends "host.html" %}
 
-
-
 {% block content %}
+Hello {{user['display_name']}}!<br>
+<img src={{user['images'][0]['url']}}><br><br>
 
 <h2 class="text-align">Your Rooms</h2>
-
 <a class="btn btn-block-yellow" href="/room_form">Create New Room</a>
+
 {% for room in rooms %}
 <div class="card card-stack">
-  <h3 style="text-align: left;"><!--Room name--></h3>
+  <h3 style="text-align: left;">{{room['name']}}</h3>
+  <p>{{room['description']}}</p>
   <span style="float: right;">
-    <form action=<!--unsyer--> method="POST">
-      <input type="hidden" name="room" value=<!-- room -->>
-      <a class="btn" href=<!--link-->>View Playlist</a>
-       <input class="btn" type="submit" value="View Playlist" name="view_playlist">
+    <form action='/playlist' method="POST">
+      <input type="hidden" name="room" value={{room['name']}}>
+      <input type="hidden" name="playlist_id" value={{room['playlist_id']}}>
+      <a class="btn" href={{room['url']}}>View Playlist</a>
    </form>
   </span>
 </div>
 {% endfor %}
+
 {% endblock content %}

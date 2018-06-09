@@ -94,16 +94,6 @@ def auth():
         flash("Error: Incorrect username.")
         return render_template("login.html")
 
-@app.route("/profile")
-def profile():
-    if 'username' in session:
-        token =  db.getAccess(session.get("username"))
-        user_info = spotify.get_user_info(token)
-        playlists = spotify.get_all_playlists(token)
-        return render_template("profile.html", user_info=user_info, playlists=playlists)
-    else:
-        return redirect(url_for('login'))
-
 #displays songs in each playlist
 @app.route("/playlist", methods=["POST", "GET"])
 def playlist():
@@ -118,7 +108,15 @@ def playlist():
 @app.route("/home_logged")
 def home_logged():
     if "username" in session:
-        return render_template("home_logged.html")
+        token = db.getAccess(session.get("username"))
+        user = spotify.get_user_info(token)
+        playlist_ids = db.getRooms(session.get("username"))
+        print "=======playlist ids========"
+        print playlist_ids
+        print "==========================="
+        token = db.getAccess(session.get("username"))
+        rooms = spotify.get_playlists(playlist_ids, token)
+        return render_template("home_logged.html", rooms=rooms, user=user)
     else:
         return redirect(url_for("login"))
 
@@ -135,11 +133,11 @@ def create_room():
     if "username" in session:
         input_name = request.form["name"]
         input_key = request.form["key"]
-        if db.createRoom(input_name, session["username"], input_key):
+        token = db.getAccess(session.get("username"))
+        #need to create column for playlist id
+        playlist_id = spotify.create_playlist(input_name, token)
+        if db.createRoom(input_name, session["username"], input_key, playlist_id):
             flash("Sucess!")
-            token = db.getAccess(session.get("username"))
-            #need to create column for playlist id
-            playlist_id = spotify.create_playlist(input_name, token)
             return redirect(url_for("home_logged"))
         else:
             flash("Room name already taken :(")
