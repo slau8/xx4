@@ -48,5 +48,29 @@ Finish getting access token
 joyceW -- 2018-05-28 11:47
 Discovered Spotipy api, will use for manipulating tracks for playlists
 
+joyceW -- 2018-05-29 19:44
+Finally understood spotfiy api! Successfully implemented a playlist manipulation function
+
 helenY -- 2018-05-29 23:52
 Add front end for finding tracks
+
+joyceW -- 2018-06-01 22:12
+Continued with playlist manipulation functions
+
+joyceW -- 2018-06-03 23:09
+More spotify.py functions; worked on host console account
+
+joyceW -- 2018-06-04 13:19
+Finished spotify playlist functions
+Renamed all files for server
+
+joyceW -- 2018-06-07 15:01
+Tested all spotify functions
+
+joyceW -- 2018-06-08 23:58
+Combined spotify fxns with database fxns for flask app
+
+joyceW -- 2018-06-09 11:49
+Worked on /home_logged route, connected database with spotify api
+
+
