@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from utils import spotify 
+from utils import spotify
 from utils import database as db
 import hashlib
 import os
@@ -22,10 +22,10 @@ def enter():
     if name.find(",") > -1 or name.find(";") > -1:
         flash('Invalid Characters in Name (No "," or ";")')
         return redirect(url_for("test"))
-    
+
     room_name = request.form["room_name"].strip()
     key = request.form["key"].strip()
-    
+
     if db.accessRoom(room_name, key):
         session["name"] = name
         session['room'] = room_name
@@ -45,8 +45,6 @@ def room():
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
-
-    
 
 @app.route("/signup")
 def signup():
@@ -100,18 +98,17 @@ def auth():
 def profile():
     if 'username' in session:
         token =  db.getAccess(session.get("username"))
-        #token = 'BQB5VWiFbG8R4hfVzfTalJSRx19M_HXkIFUXEJ6wqEcDKIc8FHI_cvG8eAOWZWxRPg0TuGP7ggG_LD8TCQ6NHO6CcOro2bWovjFE3iffA7VVHELWQA4rx01iLlefxb_M5BaYxhS0K5iIj98r21TA8hGrXrEiLd4JP2KjoLUjOxhOpB4'#session.get("access_token")
         user_info = spotify.get_user_info(token)
         playlists = spotify.get_all_playlists(token)
         return render_template("profile.html", user_info=user_info, playlists=playlists)
     else:
         return redirect(url_for('login'))
 
+#displays songs in each playlist
 @app.route("/playlist", methods=["POST", "GET"])
 def playlist():
     if 'username' in session:
         token = db.getAccess(session.get("username"))
-        session.get("access_token")
         playlist_id = request.args['playlist_id']
         playlist = spotify.get_playlist(playlist_id, token)
         return render_template('playlist.html', playlist=playlist)
@@ -140,13 +137,15 @@ def create_room():
         input_key = request.form["key"]
         if db.createRoom(input_name, session["username"], input_key):
             flash("Sucess!")
+            token = db.getAccess(session.get("username"))
+            #need to create column for playlist id
+            playlist_id = spotify.create_playlist(input_name, token)
             return redirect(url_for("home_logged"))
         else:
             flash("Room name already taken :(")
             return render_template("room_form.html")
     else:
         return redirect(url_for("login"))
-
 
 @app.route("/spotifyauth")
 def spotifyauth():
@@ -164,7 +163,7 @@ def spotifyauth():
 def apitest():
     d = spotify.retrieve_token()
     if username != "":
-        session["username"] = username 
+        session["username"] = username
         db.addRefresh(session.get("username"), d["refresh_token"])
         db.addAccess(session.get("username"), d["access_token"])
         print "===========================access token========="
@@ -190,26 +189,24 @@ def find_track():
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
-        
+
 
 @app.route("/add_track", methods=['POST', 'GET'])
 def add_track():
     if "room" in session:
         token = db.getToken(session.get("room"))
         try:
-            #wont print out full name? 
-            track_name = request.form['track_name'] 
+            #wont print out full name?
+            track_name = request.form['track_name']
             track_artist = request.form['track_artist']
             track_id = request.form['track_id']
             user = session.get("name")
             room_name = session.get("room")
             insert = track_name + ";" + track_artist + ";" + user
             db.addSongs(room_name, insert)
-            
+
             #Not sure why this isnt working
             spotify.add_track(track_id, token)
-            
-            
             flash('Successfully added!')
             return redirect(url_for('test'))
         except:
