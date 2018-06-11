@@ -271,12 +271,13 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .btn-default {
-  background-color: white;
+    background-color: EBEEF4;
+    color: #143642;
 }
 
 .btn-outline {
-  border-color: #FFFFFF;
-  color: #FFFFFF;
+  border-color: #EBEEF4;
+  color: #EBEEF4;
   opacity: 1;
 }
 

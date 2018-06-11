@@ -3,5 +3,15 @@
 {% block bodyclass %} bg-white {% endblock bodyclass %}
 
 {% block right_nav %}
-<li class="nav-item space"><b>HOST CONSOLE</b></li>
+
+	  <li class="nav-item space">
+	    <div class="dropdown">
+	      <button class="dropdown-toggle btn btn-block" style="width:200px" type="button" data-toggle="dropdown"><b>HOST MODE</b>
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li class="text-center" style="width:200px"><a href="/logout"><b>COLLABORATOR MODE</b></a></li>
+  </ul>
+</div>
+	  </li>
+
 {% endblock right_nav %}
