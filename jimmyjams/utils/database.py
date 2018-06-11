@@ -226,6 +226,22 @@ def getPlaylistid(name):
         return ""
     return p_id
 
+#Get host name
+#-----------------
+
+def getHost(name):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT host_user FROM rooms WHERE name = ?"
+        c_dup.execute(command, (name, ))
+        user = c_dup.fetchall()[0][0]
+        close()
+
+    except:
+        print "Wrong Name"
+        return ""
+    return user
 
 
 #==========================================================

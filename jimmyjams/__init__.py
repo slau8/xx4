@@ -36,8 +36,14 @@ def enter():
         flash('Wrong room name or key')
         return redirect(url_for("test"))
 
-@app.route("/room")
+@app.route("/room", methods = ['GET','POST'])
 def room():
+    try: 
+        room = request.form["room"]
+        session['room'] = room
+    except:
+        pass
+        
     if 'room' in session:
         if 'username' in session:
             token = db.getAccess(session.get("username"))
@@ -46,8 +52,6 @@ def room():
  
             playlist = spotify.get_playlist(p_id, token)
         
-            print "PLAYLIST "
-            print playlist
             name = playlist['name']
             link = playlist['external_urls']['spotify']
             results = []
@@ -61,9 +65,10 @@ def room():
         else:
             songs = db.getSongs(session.get("room")).split(",")
             song_list = []
-            room_name = db.getSongs(session.get("room"))
+            room_name = session.get("room")
             for each in songs:
-                song_list.append(each.split(";"))
+                if each.strip() != "":
+                    song_list.append(each.split(";"))
             return render_template("room.html", song_list = song_list, room_name=room_name)
     else:
         flash("Sign Into A Room First!")
@@ -76,6 +81,17 @@ def signup():
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    if "username" in session:
+        session.pop("username")
+        flash('Yay! Successfully logged out!')
+        return redirect(url_for("test"))
+    else:
+        flash('You have to be logged in to log out!')
+        return redirect(url_for("test")) 
+
 
 @app.route("/create" , methods = ['GET','POST'])
 def check_creation():
@@ -120,14 +136,22 @@ def auth():
 @app.route("/home_logged")
 def home_logged():
     if "username" in session:
-        token = db.getAccess(session.get("username"))
+        try:
+            token = db.getAccess(session.get("username"))
+            rooms = spotify.get_playlists(playlist_ids, token)
+        except:
+            refresh = db.getRefresh(session.get("username"))
+            token = spotify.swap_token(refresh)["access_token"]
+            username = session["username"]
+            db.addAccess(username, token)
+            
         user = spotify.get_user_info(token)
         playlist_ids = db.getRooms(session.get("username"))
+        rooms = spotify.get_playlists(playlist_ids, token)
         print "=======playlist ids========"
         print playlist_ids
         print "==========================="
-        token = db.getAccess(session.get("username"))
-        rooms = spotify.get_playlists(playlist_ids, token)
+        
         return render_template("home_logged.html", rooms=rooms, user=user)
     else:
         return redirect(url_for("login"))
@@ -196,14 +220,17 @@ def search():
 def find_track():
     if "room" in session:
         token = db.getToken(session.get("room"))
+        title = request.form["song_name"]
+        title.replace(" ", "%20")
         try:
-            title = request.form["song_name"]
-            title.replace(" ", "%20")
             tracks = spotify.get_track(title, token)
-            return render_template("track_results.html", tracks = tracks)
         except:
-            print "error"
-            return render_template("search_track.html")
+            host = db.getHost(session["room"])
+            refresh = db.getRefresh(host)
+            token = spotify.swap_token(refresh)["access_token"]
+            db.addAccess(host,token)
+            tracks = spotify.get_track(title, token)
+        return render_template("track_results.html", tracks = tracks)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))

@@ -68,10 +68,12 @@ def retrieve_token():
 
 #gets new token with refresh token
 def swap_token(refresh_token):
-    url = "https://example.com/v1/refresh"
-    authorization_header = {"Content-Type" : "application/x-www-form-urlencoded"}
-    params = {"refresh_token": refresh_token}
-    req = requests.post(url, data=json.dumps(params), headers=authorization_header)
+    url = "https://accounts.spotify.com/api/token"
+    encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
+    authorization_header = {"Authorization": "Basic " + encoded,"Content-Type" : "application/x-www-form-urlencoded"}
+    params = {"grant_type": "refresh_token","refresh_token": refresh_token}
+
+    req = requests.post(url, data=params, headers=authorization_header)
     resp = json.loads(req.text)
     print resp
     return resp
@@ -185,4 +187,4 @@ def delete_track(track_id, playlist_id, token):
 # get_all_playlists('BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
 # add_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
 # delete_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
-get_user_info('AQASaZXUVcZtoybcFxfCu43PcEy5FSG5w4Hz-oOzIW2rYrUFzaoAQ7QkWAkxp3lIOPWxnmUG_MHS45B6SsjJliutVpRvdk9ZSuCa-vXpNLgoESgYAx-oBxF07CP43F5qYyw')
+#get_user_info('AQASaZXUVcZtoybcFxfCu43PcEy5FSG5w4Hz-oOzIW2rYrUFzaoAQ7QkWAkxp3lIOPWxnmUG_MHS45B6SsjJliutVpRvdk9ZSuCa-vXpNLgoESgYAx-oBxF07CP43F5qYyw')

@@ -12,10 +12,10 @@
   <h3 style="text-align: left;">{{room['name']}}</h3>
   <p>{{room['description']}}</p>
   <span style="float: right;">
-    <form action='/playlist' method="POST">
+    <form action='/room' method="POST">
       <input type="hidden" name="room" value={{room['name']}}>
       <input type="hidden" name="playlist_id" value={{room['playlist_id']}}>
-      <a class="btn" href={{room['url']}}>View Playlist</a>
+        <input class="btn btn-block" type="submit" value="See Playlist" name="playlist">
    </form>
   </span>
 </div>
