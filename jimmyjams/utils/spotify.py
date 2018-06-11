@@ -128,7 +128,7 @@ def add_track(track_id, playlist_id, token):
     url = 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks'
     req = requests.post(url, params=params, headers=authorization_header)
     resp = json.loads(req.text)
-    print resp
+    print "HELP US JESUS CHRIST" + str(resp)
     return resp
 
 #host creates new playlist
