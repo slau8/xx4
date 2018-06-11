@@ -62,6 +62,8 @@ def room():
             songs = db.getSongs(session.get("room")).split(",")
             song_list = []
             room_name = session.get("room")
+            
+            
             for each in songs:
                 if each.strip() != "":
                     song_list.append(each.split(";"))
@@ -277,8 +279,8 @@ def add_track():
     if "room" in session:
         token = db.getToken(session.get("room"))
         try:
-            #wont print out full name?
             track_name = request.form['track_name']
+            track_name = track_name.replace("%20", " ")
             track_artist = request.form['track_artist']
             track_id = request.form['track_id']
             user = session.get("name")

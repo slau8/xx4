@@ -27,6 +27,14 @@ var updateData = function(songs){
         div.appendChild(element);
     }  
     
+    if (songs.length < 1){
+        element = document.createElement("h3");
+        element.setAttribute("style", "text-align: left;");
+        text = document.createTextNode("No Songs Have Been Added")
+        element.appendChild(text);
+        div.appendChild(element);
+    }
+    
 };
 
 var clear = function(){
