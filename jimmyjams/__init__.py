@@ -10,13 +10,13 @@ global username
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
-@app.route("/test")
-def index():
-    return render_template("home.html")
 
 @app.route("/")
 def test():
-    return render_template("enter.html")
+    if "username" in session:
+        return redirect(url_for("home_logged"))
+    else:
+        return render_template("enter.html")
 
 @app.route("/enter", methods = ['GET','POST'])
 def enter():
@@ -76,11 +76,19 @@ def room():
 
 @app.route("/signup")
 def signup():
-    return render_template("signup.html")
+    if "username" in session:
+        flash("You're already logged in!")
+        return redirect(url_for("home_logged"))
+    else:
+        return render_template("signup.html")
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    if "username" in session:
+        flash("You're already logged in!")
+        return redirect(url_for("home_logged"))
+    else:
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -95,43 +103,51 @@ def logout():
 
 @app.route("/create" , methods = ['GET','POST'])
 def check_creation():
-    user = request.form["username"]
-    fname = request.form["fname"]
-    lname = request.form["lname"]
-    if request.form["password1"] == request.form["password2"]:
-        pwd = request.form["password1"]
-        unique = db.createAcc(user,pwd, fname, lname)
-        if unique:
-            session['username'] = user
-            print 'asdfjasdjfsdjf<><>' + user
-            print '***' + session['username']
-            flash("Welcome! Login here.")
-            return redirect(url_for("spotifyauth"))
-        else:
-            flash ("Sorry, this username already exists. Try again.")
-            return redirect(url_for("signup"))
+    if "username" in session:
+        flash("You're already logged in!")
+        return redirect(url_for("home_logged"))
     else:
-        flash("Passwords do not match. Try again.")
-        return redirect(url_for("signup"))
+        user = request.form["username"]
+        fname = request.form["fname"]
+        lname = request.form["lname"]
+        if request.form["password1"] == request.form["password2"]:
+            pwd = request.form["password1"]
+            unique = db.createAcc(user,pwd, fname, lname)
+            if unique:
+                session['username'] = user
+                print 'asdfjasdjfsdjf<><>' + user
+                print '***' + session['username']
+                flash("Welcome! Login here.")
+                return redirect(url_for("spotifyauth"))
+            else:
+                flash ("Sorry, this username already exists. Try again.")
+                return redirect(url_for("signup"))
+        else:
+            flash("Passwords do not match. Try again.")
+            return redirect(url_for("signup"))
 
 @app.route("/auth", methods = ['GET','POST'])
 def auth():
-    input_name = request.form["username"]
-    input_pass = request.form["password"]
-    hash_object = hashlib.sha224(input_pass)
-    hashed_pass = hash_object.hexdigest()
-    lookup = db.auth(input_name)
-    #Validation process, what went wrong (if anything)?
-    if lookup[0]:
-        if hashed_pass == lookup[1][0]:
-            session["username"] = input_name #Creates a new session
-            return redirect(url_for("home_logged"))
-        else:
-            flash("Error: Incorrect password.")
-            return render_template("login.html")
+    if "username" in session:
+        flash("You're already logged in!")
+        return redirect(url_for("home_logged"))
     else:
-        flash("Error: Incorrect username.")
-        return render_template("login.html")
+        input_name = request.form["username"]
+        input_pass = request.form["password"]
+        hash_object = hashlib.sha224(input_pass)
+        hashed_pass = hash_object.hexdigest()
+        lookup = db.auth(input_name)
+        #Validation process, what went wrong (if anything)?
+        if lookup[0]:
+            if hashed_pass == lookup[1][0]:
+                session["username"] = input_name #Creates a new session
+                return redirect(url_for("home_logged"))
+            else:
+                flash("Error: Incorrect password.")
+                return render_template("login.html")
+        else:
+            flash("Error: Incorrect username.")
+            return render_template("login.html")
 
 @app.route("/home_logged")
 def home_logged():
