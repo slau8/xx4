@@ -281,6 +281,8 @@ def add_track():
         try:
             track_name = request.form['track_name']
             track_name = track_name.replace("%20", " ")
+            print track_name
+            
             track_artist = request.form['track_artist']
             track_id = request.form['track_id']
             user = session.get("name")
