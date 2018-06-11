@@ -24,11 +24,14 @@ bg-navy
   </form><br>
 </div>
  {% endif %}
-{% for song in song_list %}
+<!--{% for song in song_list %}
 <div class="card card-stack">
   <h3 style="text-align: left;">{{song[0]}} by {{song[1]}} added by {{song[2]}}</h3>
 </div>
-{% endfor %}
+
+{% endfor %}-->
+<div id="songs">
+</div>
 
 {% if logged_in %}
 <a href="/home_logged" class="link-dotted">return to profile</a>
@@ -39,4 +42,9 @@ bg-navy
 
 
 
+
 {% endblock content %}
+
+{% block script %}
+<script type="text/javascript" src="../static/js/main.js"></script>
+{% endblock script %}
