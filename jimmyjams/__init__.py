@@ -47,6 +47,7 @@ def room():
     if 'room' in session:
             room = session.get("room")
             p_id = db.getPlaylistid(room)
+            token = db.getToken(session.get("room"))
  
             playlist = spotify.get_playlist(p_id, token)
             link = playlist['external_urls']['spotify']

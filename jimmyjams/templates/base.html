@@ -33,13 +33,7 @@ P02 - Jimmy Jams -->
           <a class="btn btn-outline btn-icon" href="/login"><span class="glyphicon glyphicon-log-in"></span></a>
           {% endif %}
         </div> -->
-        <!-- <ul class="nav navbar-nav navbar-right nav-name">
-          {% if logged_in %}
-          <li class="nav-item space"><a href="{{ url_for('.rankings', _anchor = username.lower()) }}" style="color:white; background-color: transparent;"><b>WELCOME, {{ username }}</b> <span class="badge">{{ score }}</span></a></li>
-          {% else %}
-          <li class="nav-item space"><b>WELCOME, {{ username }}</b> <span class="badge">{{ score }}</span></li>
-          {% endif %}
-        </ul> -->
+
         <ul class="nav navbar-nav navbar-right nav-name">
           {% block right_nav %}
           {% endblock right_nav %}

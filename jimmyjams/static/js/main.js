@@ -12,3 +12,7 @@ var retrieveData = function(e){
     }
   })
 };
+
+// display playlist info
+
+setInterval(retrieveData, 3000);
