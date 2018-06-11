@@ -5,6 +5,7 @@ from utils import spotify
 from utils import database as db
 import hashlib
 import os
+global username
 
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
@@ -41,8 +42,22 @@ def room():
         if 'username' in session:
             token = db.getAccess(session.get("username"))
             room = session.get("room")
-            playlist = spotify.get_playlist(room, token)
-            return render_template('playlist.html', playlist=playlist)
+            p_id = db.getPlaylistid(room)
+ 
+            playlist = spotify.get_playlist(p_id, token)
+        
+            print "PLAYLIST "
+            print playlist
+            name = playlist['name']
+            link = playlist['external_urls']['spotify']
+            results = []
+            try:
+                for song in playlist['tracks']['items']:
+                    results.append([song['track']['name'], song['track']['artists'][0]['name'], song['added_at']])
+            except: 
+                print "nothing inside"
+            
+            return render_template('playlist.html', name = name, results = results, link = link)
         else:
             songs = db.getSongs(session.get("room")).split(",")
             song_list = []
@@ -208,10 +223,10 @@ def add_track():
             insert = track_name + ";" + track_artist + ";" + user
             db.addSongs(room_name, insert)
 
-            #Not sure why this isnt working
-            spotify.add_track(track_id, token)
+            p_id = db.getPlaylistid(room_name)
+            spotify.add_track(track_id, p_id, token)
             flash('Successfully added!')
-            return redirect(url_for('test'))
+            return redirect(url_for('room'))
         except:
             flash('We could not add the song. Try again.')
             return redirect(url_for('find_track'))

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{playlist['name']}}<br>
-{% for song in playlist['tracks']['items'] %}
-{{song['track']['name']}} by {{song['track']['artists'][0]['name']}}<br>
-added at {{song['added_at']}} <br>
+{{name}}<br>
+{% for song in results %}
+{{song[0]}} by {{song[1]}}<br>
+added at {{song[2]}} <br>
 {% endfor %}
-Link: <a href={{playlist['external_urls']['spotify']}}>Click me</a>
+Link: <a href={{link}}>Click me</a>
 {% endblock content %}

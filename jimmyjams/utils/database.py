@@ -209,11 +209,28 @@ def getToken(name):
         return ""
     return key
 
+#Get playlist_id
+#-----------------
+
+def getPlaylistid(name):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT playlist_id FROM rooms WHERE name = ?"
+        c_dup.execute(command, (name, ))
+        p_id = c_dup.fetchall()[0][0]
+        close()
+
+    except:
+        print "Wrong Name"
+        return ""
+    return p_id
+
 
 
 #==========================================================
 #TESTS
-#db_setup()
+db_setup()
 #createAcc("jack", "Jack", "Boy", "jackpwd")
 #createAcc("jack", "lol", "peep", "ksjdlf")
 #auth("jack")
