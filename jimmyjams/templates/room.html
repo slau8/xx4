@@ -1,14 +1,44 @@
 {% extends "base.html" %}
 
+{% block bodyclass %}
+{% if logged_in %}
+bg-white
+{% else %}
+bg-navy
+{% endif %}
+{% endblock bodyclass %}
+
 {% block content %}
-<h1 class="text-center">{{room_name}}</h1>
+<div class="text-center">
+  <h1 class="text-center">{{ room_name }}</h1>
+
+  {% if logged_in %}
+  <form action={{ link }}><input class="btn btn-block-yellow" type="submit" value="View the Spotify Playlist"></form>
+  {% else %}
+<div class="card card-center">
+  <form action="/find_track" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control text-round" placeholder="Search a song" name="song_name" required>
+    </div>
+    <input class="btn btn-block" type="submit" value="SEARCH" name="search_song">
+  </form><br>
+</div>
+  
 <button><a class="btn btn-block-yellow" href="/search">Add a Song</a></button>
+</div>
 {% for song in song_list %}
 <div class="card card-stack">
   <h3 style="text-align: left;">{{song[0]}} by {{song[1]}} added by {{song[2]}}</h3>
 </div>
 {% endfor %}
 
-<button><a class="btn btn-block-yellow" href="/">Switch Room</a></button>
+{% if logged_in %}
+<a href="/home_logged" class="link-dotted">return to profile</a>
+{% else %}
+<form action="/"><input class="btn btn-block-yellow" type="submit" value="Enter New Room"></form>
+<a href="/" class="link-dotted">enter new room</a>
+{% endif %}
+
+
 
 {% endblock content %}
