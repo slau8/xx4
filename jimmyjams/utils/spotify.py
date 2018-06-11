@@ -3,14 +3,19 @@ import requests
 import urllib
 import base64
 import json
+import os
+#from jimmyjams.utils import database as db
 from utils import database as db
 
-with open('.api', 'rU') as f:
+path = os.path.dirname(os.path.realpath(__file__))
+
+with open(os.path.join(path, '.api'), 'rU') as f:
     CLIENT_INFO = json.loads(f.read())
 
 CLIENT_ID = CLIENT_INFO['client_id']
 CLIENT_SECRET = CLIENT_INFO['client_secret']
 
+#CLIENTSIDE_URL = 'http://159.89.230.97'
 CLIENTSIDE_URL = 'http://127.0.0.1:5000'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'

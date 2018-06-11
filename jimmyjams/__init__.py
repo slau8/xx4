@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+#from jimmyjams.utils import spotify
+#from jimmyjams.utils import database as db
 from utils import spotify
+from utils import database as db
 import hashlib
 import os
 
