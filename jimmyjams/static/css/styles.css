@@ -257,6 +257,7 @@ a, a:hover, a:active, a:visited, a:focus {
 .btn-block-yellow {
   margin-left: 0px;
   margin-right: 0px;
+  width: 60%;
   color: #EBEEF4;
   background-color: #EDB528;
 }
