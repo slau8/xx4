@@ -1,10 +1,12 @@
 global db
 import sqlite3, random
+import os
 import hashlib
 
 def open_db():
     global db
-    f= "data/spotify.db"
+    path = os.path.dirname(os.path.realpath(__file__))
+    f= os.path.join(path, '../data/spotify.db')
     db = sqlite3.connect(f, check_same_thread = False) #open if f exists, otherwise create
     return
 

@@ -1,9 +1,10 @@
 {% extends "host.html" %}
 
 {% block content %}
-<img src={{user['images'][0]['url']}}><br><br>
+<img src="{{user['images'][0]['url'] if user['images']|length > 0 else '' }}"><br><br>
 
-<h2 class="text-align">{{user['display_name']}}'s Rooms</h2>
+{% set name = user['display_name'] if user['display_name'] != None else user['id'] %}
+<h2 class="text-align">{{name}}'s Rooms</h2>
 <a class="btn btn-block-yellow" href="/room_form">Create New Room</a>
 
 {% for room in rooms %}

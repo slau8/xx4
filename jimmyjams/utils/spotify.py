@@ -3,13 +3,19 @@ import requests
 import urllib
 import base64
 import json
+import os
+#from jimmyjams.utils import database as db
+from utils import database as db
 
-with open('.api', 'rU') as f:
+path = os.path.dirname(os.path.realpath(__file__))
+
+with open(os.path.join(path, '.api'), 'rU') as f:
     CLIENT_INFO = json.loads(f.read())
 
 CLIENT_ID = CLIENT_INFO['client_id']
 CLIENT_SECRET = CLIENT_INFO['client_secret']
 
+#CLIENTSIDE_URL = 'http://159.89.230.97'
 CLIENTSIDE_URL = 'http://127.0.0.1:5000'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
@@ -179,3 +185,4 @@ def delete_track(track_id, playlist_id, token):
 # get_all_playlists('BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
 # add_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
 # delete_track('1301WleyT98MSxVHPZCA6M', '7HwlhpxX7ihfhWWrz6ASCf', 'BQCWiidi9tIs5TtNoUjZl586elGe8xpZUl7NExVeXTLP2pXmRH2JJypWythgOlDrH1nuK3_0qthCse1P1dLwpfyiAls4vNgVT5RqamldEgyURngrDJXOOEBXj1v5ym-bNBByZQ2Oct15pJ0qL1bXoNKEXBhxhYX0o9nTXJl1Wz2S7Z0')
+get_user_info('AQASaZXUVcZtoybcFxfCu43PcEy5FSG5w4Hz-oOzIW2rYrUFzaoAQ7QkWAkxp3lIOPWxnmUG_MHS45B6SsjJliutVpRvdk9ZSuCa-vXpNLgoESgYAx-oBxF07CP43F5qYyw')

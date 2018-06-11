@@ -73,4 +73,5 @@ Combined spotify fxns with database fxns for flask app
 joyceW -- 2018-06-09 11:49
 Worked on /home_logged route, connected database with spotify api
 
-
+joyceW -- 2018-06-10 23:37
+Worked on on routing for /room
