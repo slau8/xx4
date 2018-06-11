@@ -36,6 +36,15 @@ P02 - Jimmy Jams -->
 
         <ul class="nav navbar-nav navbar-right nav-name">
           {% block right_nav %}
+	  <li class="nav-item space">
+	    <div class="dropdown">
+	      <button class="dropdown-toggle btn btn-block-yellow" style="width:200px" type="button" data-toggle="dropdown"><b>COLLABORATOR MODE</b>
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li class="text-center" style="width:200px"><a href="/signup"><b>HOST MODE</b></a></li>
+  </ul>
+</div>
+	  </li>
           {% endblock right_nav %}
         </ul>
       </div>
