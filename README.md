@@ -1,5 +1,7 @@
-![JIMMY JAMS](jimmyjams/static/img/jj.JPG)
+<p align="center"><img src="jimmyjams/static/img/logo.png" width="100px"/></p>
+
 # xx4 presents: JIMMY JAMS
+
 Find our app [here](http://159.89.230.97/)!
 
 Jimmy Jams is a web application that allows people to request music in real time. Hosts of a party can create a “music room” with a corresponding name and key. After inputting the music room credentials, a user can enter the room and input a song, which is added to the playlist queue via the Spotify API. The host of the room will receive a hyperlink to the Spotify playlist, playable from any device.
