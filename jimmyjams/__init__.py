@@ -169,9 +169,17 @@ def create_room():
     if "username" in session:
         input_name = request.form["name"]
         input_key = request.form["key"]
-        token = db.getAccess(session.get("username"))
-        #need to create column for playlist id
-        playlist_id = spotify.create_playlist(input_name, token)
+        
+        try:
+            token = db.getAccess(session.get("username"))
+            playlist_id = spotify.create_playlist(input_name, token)
+        except:
+            refresh = db.getRefresh(session.get("username"))
+            token = spotify.swap_token(refresh)["access_token"]
+            username = session["username"]
+            db.addAccess(username, token)
+            playlist_id = spotify.create_playlist(input_name, token)
+            
         if db.createRoom(input_name, session["username"], input_key, playlist_id):
             flash("Success!")
             return redirect(url_for("home_logged"))
