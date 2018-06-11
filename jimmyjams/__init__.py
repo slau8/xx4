@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from utils import spotify
-from utils import database as db
 import hashlib
 import os
 
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
-
 
 @app.route("/test")
 def index():
@@ -37,12 +35,18 @@ def enter():
 @app.route("/room")
 def room():
     if 'room' in session:
-        songs = db.getSongs(session.get("room")).split(",")
-        song_list = []
-        room_name = db.getSongs(session.get("room"))
-        for each in songs:
-            song_list.append(each.split(";"))
-        return render_template("room.html", song_list = song_list, room_name=room_name)
+        if 'username' in session:
+            token = db.getAccess(session.get("username"))
+            room = session.get("room")
+            playlist = spotify.get_playlist(room, token)
+            return render_template('playlist.html', playlist=playlist)
+        else:
+            songs = db.getSongs(session.get("room")).split(",")
+            song_list = []
+            room_name = db.getSongs(session.get("room"))
+            for each in songs:
+                song_list.append(each.split(";"))
+            return render_template("room.html", song_list = song_list, room_name=room_name)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
