@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from utils import spotify
 from utils import database as db
 import hashlib
-import os
+import os, json
 global username
 
 app = Flask(__name__)
@@ -47,9 +47,17 @@ def room():
     if 'room' in session:
             room = session.get("room")
             p_id = db.getPlaylistid(room)
-            token = db.getToken(session.get("room"))
- 
-            playlist = spotify.get_playlist(p_id, token)
+            try: 
+                token = db.getToken(session.get("room"))
+                playlist = spotify.get_playlist(p_id, token)
+            except:
+                host = db.getHost(session.get("room"))
+                refresh = db.getRefresh(host)
+                token = spotify.swap_token(refresh)["access_token"]
+                
+                db.addAccess(host, token)
+                playlist = spotify.get_playlist(p_id, token)
+                
             link = playlist['external_urls']['spotify']
             songs = db.getSongs(session.get("room")).split(",")
             song_list = []
@@ -150,6 +158,7 @@ def playlist_info():
             if each.strip() != "":
                 song_list.append(each.split(";"))
     response = { "songs" : song_list}
+    print response
     return json.dumps(response)
 
 @app.route("/home_logged")
