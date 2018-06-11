@@ -1,10 +1,9 @@
 {% extends "host.html" %}
 
 {% block content %}
-Hello {{user['display_name']}}!<br>
 <img src={{user['images'][0]['url']}}><br><br>
 
-<h2 class="text-align">Your Rooms</h2>
+<h2 class="text-align">{{user['display_name']}}'s Rooms</h2>
 <a class="btn btn-block-yellow" href="/room_form">Create New Room</a>
 
 {% for room in rooms %}

@@ -137,7 +137,7 @@ def create_room():
         #need to create column for playlist id
         playlist_id = spotify.create_playlist(input_name, token)
         if db.createRoom(input_name, session["username"], input_key, playlist_id):
-            flash("Sucess!")
+            flash("Success!")
             return redirect(url_for("home_logged"))
         else:
             flash("Room name already taken :(")
