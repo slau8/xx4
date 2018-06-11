@@ -10,16 +10,16 @@
 
 {% for room in rooms %}
 <div class="card card-stack">
-  <h3 style="text-align: left;">{{room['name']}}</h3>
-  <p>{{room['description']}}</p>
+  <h3 style="text-align: left;">{{room['name']}}
+  <!--<p>{{room['description']}}</p>-->
   <span style="float: right;">
     <form action='/room' method="POST">
       <input type="hidden" name="room" value={{room['name']}}>
       <input type="hidden" name="playlist_id" value={{room['playlist_id']}}>
-        <input class="btn btn-block" type="submit" value="See Playlist" name="playlist">
+        <input class="btn btn-block" style="width:150px;" type="submit" value="View Playlist" name="playlist">
    </form>
   </span>
-</div>
+  </h3>
 </div>
 {% endfor %}
 

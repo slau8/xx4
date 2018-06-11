@@ -8,6 +8,31 @@ bg-navy
 {% endif %}
 {% endblock bodyclass %}
 
+{% block right_nav %}
+{% if logged_in %}
+	  <li class="nav-item space">
+	    <div class="dropdown">
+	      <button class="dropdown-toggle btn btn-block" style="width:200px" type="button" data-toggle="dropdown"><b>HOST MODE</b>
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li class="text-center" style="width:200px"><a href="/logout"><b>COLLABORATOR MODE</b></a></li>
+  </ul>
+</div>
+	  </li>
+
+{% else %}
+<li class="nav-item space">
+	    <div class="dropdown">
+	      <button class="dropdown-toggle btn btn-block-yellow" style="width:200px" type="button" data-toggle="dropdown"><b>COLLABORATOR MODE</b>
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li class="text-center" style="width:200px"><a href="/signup"><b>HOST MODE</b></a></li>
+  </ul>
+</div>
+</li>
+{% endif %}
+{% endblock right_nav %}
+
 {% block content %}
 <div class="text-center">
   <h1 class="text-center">{{ room_name }}</h1>
@@ -32,11 +57,10 @@ bg-navy
 {% endfor %}-->
 <div id="songs">
 </div>
-
+<br><br><br>
 {% if logged_in %}
 <a href="/home_logged" class="link-dotted">return to profile</a>
 {% else %}
-<form action="/"><input class="btn btn-block-yellow" type="submit" value="Enter New Room"></form>
 <a href="/" class="link-dotted">enter new room</a>
 {% endif %}
 
