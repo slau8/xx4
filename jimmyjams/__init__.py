@@ -233,7 +233,7 @@ def apitest():
     else:
         flash("Please Login First")
         return render_template("login.html")
-
+'''
 @app.route("/search")
 def search():
     if "room" in session:
@@ -241,7 +241,7 @@ def search():
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
-
+'''
 @app.route("/find_track", methods=["POST", 'GET'])
 def find_track():
     if "room" in session:
