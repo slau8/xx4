@@ -1,4 +1,4 @@
-![JIMMY JAMS](jimmyjams/static/img/jj.jpg)
+![JIMMY JAMS](jimmyjams/static/img/jj.JPG)
 # xx4 presents: JIMMY JAMS
 Find our app [here](http://159.89.230.97/)!
 
