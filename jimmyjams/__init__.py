@@ -45,31 +45,21 @@ def room():
         pass
         
     if 'room' in session:
-        if 'username' in session:
-            token = db.getAccess(session.get("username"))
             room = session.get("room")
             p_id = db.getPlaylistid(room)
  
             playlist = spotify.get_playlist(p_id, token)
-        
-            name = playlist['name']
             link = playlist['external_urls']['spotify']
-            results = []
-            try:
-                for song in playlist['tracks']['items']:
-                    results.append([song['track']['name'], song['track']['artists'][0]['name'], song['added_at']])
-            except: 
-                print "nothing inside"
-            
-            return render_template('playlist.html', name = name, results = results, link = link)
-        else:
             songs = db.getSongs(session.get("room")).split(",")
             song_list = []
             room_name = session.get("room")
             for each in songs:
                 if each.strip() != "":
                     song_list.append(each.split(";"))
-            return render_template("room.html", song_list = song_list, room_name=room_name)
+            if "username" in session: 
+                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = True)
+            else: 
+                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = False)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
@@ -148,6 +138,18 @@ def auth():
         else:
             flash("Error: Incorrect username.")
             return render_template("login.html")
+        
+@app.route("/playlist_info")
+def playlist_info():
+    if 'room' in session:
+        songs = db.getSongs(session.get("room")).split(",")
+        song_list = []
+        room = session.get("room")
+        for each in songs:
+            if each.strip() != "":
+                song_list.append(each.split(";"))
+    response = { "songs" : song_list}
+    return json.dumps(response)
 
 @app.route("/home_logged")
 def home_logged():
