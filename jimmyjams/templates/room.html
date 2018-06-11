@@ -23,9 +23,7 @@ bg-navy
     <input class="btn btn-block" type="submit" value="SEARCH" name="search_song">
   </form><br>
 </div>
-  
-<button><a class="btn btn-block-yellow" href="/search">Add a Song</a></button>
-</div>
+ {% endif %}
 {% for song in song_list %}
 <div class="card card-stack">
   <h3 style="text-align: left;">{{song[0]}} by {{song[1]}} added by {{song[2]}}</h3>
