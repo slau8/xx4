@@ -1,6 +1,6 @@
 <p align="center"><img src="jimmyjams/static/img/logo.png" width="100px"/></p>
 
-xx4 presents: JIMMY JAMS
+# xx4 presents: JIMMY JAMS
 
 Find our app [here](http://159.89.230.97/)!
 
