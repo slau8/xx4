@@ -287,8 +287,11 @@ def add_track():
             room_name = session.get("room")
             insert = track_name + ";" + track_artist + ";" + user
             db.addSongs(room_name, insert)
+            print "Cool"
 
             p_id = db.getPlaylistid(room_name)
+            print "P_ID" + p_id
+            
             spotify.add_track(track_id, p_id, token)
             flash('Successfully added!')
             return redirect(url_for('room'))
