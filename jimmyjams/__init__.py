@@ -75,7 +75,7 @@ def room():
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
 
-@app.route("/signup")
+@app.route("/signup", methods = ['GET','POST'])
 def signup():
     if "username" in session:
         flash("You're already logged in!")
@@ -83,7 +83,7 @@ def signup():
     else:
         return render_template("signup.html")
 
-@app.route("/login")
+@app.route("/login", methods = ['GET','POST'])
 def login():
     if "username" in session:
         flash("You're already logged in!")
@@ -91,7 +91,7 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route("/logout")
+@app.route("/logout", methods = ['GET','POST'])
 def logout():
     if "username" in session:
         session.pop("username")
@@ -150,7 +150,7 @@ def auth():
             flash("Error: Incorrect username.")
             return render_template("login.html")
         
-@app.route("/playlist_info")
+@app.route("/playlist_info", methods = ['GET','POST'])
 def playlist_info():
     if 'room' in session:
         songs = db.getSongs(session.get("room")).split(",")
@@ -163,7 +163,7 @@ def playlist_info():
     print response
     return json.dumps(response)
 
-@app.route("/home_logged")
+@app.route("/home_logged", methods = ['GET','POST'])
 def home_logged():
     if "username" in session:
         try:
