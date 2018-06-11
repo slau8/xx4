@@ -39,9 +39,10 @@ def room():
     if 'room' in session:
         songs = db.getSongs(session.get("room")).split(",")
         song_list = []
+        room_name = db.getSongs(session.get("room"))
         for each in songs:
             song_list.append(each.split(";"))
-        return render_template("room.html", song_list = song_list)
+        return render_template("room.html", song_list = song_list, room_name=room_name)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
@@ -93,17 +94,6 @@ def auth():
     else:
         flash("Error: Incorrect username.")
         return render_template("login.html")
-
-#displays songs in each playlist
-@app.route("/playlist", methods=["POST", "GET"])
-def playlist():
-    if 'username' in session:
-        token = db.getAccess(session.get("username"))
-        playlist_id = request.args['playlist_id']
-        playlist = spotify.get_playlist(playlist_id, token)
-        return render_template('playlist.html', playlist=playlist)
-    else:
-        return redirect(url_for('login'))
 
 @app.route("/home_logged")
 def home_logged():
@@ -171,6 +161,14 @@ def apitest():
     else:
         flash("Please Login First")
         return render_template("login.html")
+
+@app.route("/search")
+def search():
+    if "room" in session:
+        return render_template("search_track.html")
+    else:
+        flash("Sign Into A Room First!")
+        return redirect(url_for("test"))
 
 @app.route("/find_track", methods=["POST", 'GET'])
 def find_track():

@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
-{% block scripts %}
-
-{% endblock scripts %}
-
 {% block content %}
 <h1 class="text-center">{{room_name}}</h1>
-<a class="btn btn-block-yellow" href="/find_track">Add a Song</a></button>
+<a class="btn btn-block-yellow" href="/search">Add a Song</a></button>
 {% for song in songs %}
 
 <div class="card card-stack">
   <h3 style="text-align: left;"><!--Song name--> by <!--Artist name--></h3>
 </div>
+{% endfor %}
 
 {% endblock content %}
