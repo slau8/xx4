@@ -278,6 +278,7 @@ def find_track():
 def add_track():
     if "room" in session:
         token = db.getToken(session.get("room"))
+        print "TOKEN ====== " + token
         try:
             track_name = request.form['track_name']
             track_name = track_name.replace("%20", " ")
