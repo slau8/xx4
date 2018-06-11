@@ -1,11 +1,12 @@
 {% extends "host.html" %}
 
 {% block content %}
+<div class="text-center">
 <img src="{{user['images'][0]['url'] if user['images']|length > 0 else '' }}"><br><br>
 
 {% set name = user['display_name'] if user['display_name'] != None else user['id'] %}
-<h2 class="text-align">{{name}}'s Rooms</h2>
-<a class="btn btn-block-yellow" href="/room_form">Create New Room</a>
+<h2 class="text-align">{{name}}'s Rooms</h2><br>
+<form action="/room_form"><input class="btn btn-block-yellow" type="submit" value="Create New Room"></form>
 
 {% for room in rooms %}
 <div class="card card-stack">
@@ -18,6 +19,7 @@
         <input class="btn btn-block" type="submit" value="See Playlist" name="playlist">
    </form>
   </span>
+</div>
 </div>
 {% endfor %}
 
