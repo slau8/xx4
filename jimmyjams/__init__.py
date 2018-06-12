@@ -169,6 +169,7 @@ def playlist_info():
         song_list = []
         room = session.get("room")
         for each in songs:
+            print each
             each.replace("%30", ",")
             if each.strip() != "":
                 song_list.append(each.split(";"))
