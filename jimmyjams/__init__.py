@@ -13,8 +13,9 @@ app.secret_key = os.urandom(32)
 
 @app.route("/", methods = ['GET','POST'])
 def test():
-    if session["mode"] == "host":
-        return redirect(url_for("home_logged"))
+    if "mode" in session:
+        if session["mode"] == "host":
+            return redirect(url_for("home_logged"))
     else:
         return render_template("enter.html", logged_in = logged_in())
 
