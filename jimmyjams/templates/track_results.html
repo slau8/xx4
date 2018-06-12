@@ -6,7 +6,7 @@
 {% for track in tracks %}
 
   <div class="card card-stack">
-	  <h3 style="text-align: left;"><b>{{track[0]}}</b> by {{track[1]}}</h3>
+	  <h3 style="text-align: left;"><b>{{track[0]}}</b> by {{track[1]}}
       <span style="float: right;">
 	<form action="/add_track" method="POST">
         <input type="hidden" name="track_name" value={{track[0] | replace(" ","%20") }}>
@@ -15,6 +15,7 @@
 	  <button class="btn btn-block" type="submit">+</button>
 	</form>
       </span>
+		  </h3>
     
   </div>
 
