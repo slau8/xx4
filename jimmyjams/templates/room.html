@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block bodyclass %}
-{% if logged_in %}
+{% if not is_collaborator %}
 bg-white
 {% else %}
 bg-navy
@@ -9,7 +9,7 @@ bg-navy
 {% endblock bodyclass %}
 
 {% block right_nav %}
-{% if logged_in %}
+{% if not is_collaborator %}
 	  <li class="nav-item space">
 	    <div class="dropdown">
 	      <button class="dropdown-toggle btn btn-block" style="width:200px" type="button" data-toggle="dropdown"><b>HOST MODE</b>
@@ -38,7 +38,7 @@ bg-navy
 <div class="text-center">
   <h1 class="text-center">{{ room_name }}</h1>
 
-  {% if logged_in %}
+  {% if not is_collaborator %}
   <a target="_blank" href={{ link }}><input class="btn btn-block-yellow" type="submit" value="View the Spotify Playlist"></a>
   {% else %}
 <div class="card card-center">
@@ -59,7 +59,7 @@ bg-navy
 <div id="songs">
 </div>
 <br><br><br>
-{% if logged_in %}
+{% if not is_collaborator %}
 <a href="/home_logged" class="link-dotted">return to profile</a>
 {% else %}
 <a href="/" class="link-dotted">enter new room</a>
