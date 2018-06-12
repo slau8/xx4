@@ -122,13 +122,13 @@ def createRoom(name, user, key, playlist_id):
 #Access a room
 #-----------------
 def accessRoom(name, key):
-    try:
-        open_db()
-        c_dup = db.cursor()
-        command = "SELECT name FROM rooms WHERE name = ? AND key = ?"
-        c_dup.execute(command, (name, key,))
-        close()
-    except:
+    open_db()
+    c_dup = db.cursor()
+    command = "SELECT name FROM rooms WHERE name = ? AND key = ?"
+    c_dup.execute(command, (name, key,))
+    rooms = c_dup.fetchall()
+    close()
+    if len(rooms) == 0:
         print "Wrong name or key"
         return False
     return True
