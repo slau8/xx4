@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 class="text-align">Select a Song</h2>
+<h2 class="text-center">Select a Song</h2>
 
 {% for track in tracks %}
 
   <div class="card card-stack">
-      <h3 style="text-align: left;">{{track[0]}} by {{track[1]}}</h3>
+	  <h3 style="text-align: left;"><b>{{track[0]}}</b> by {{track[1]}}</h3>
       <span style="float: right;">
 	<form action="/add_track" method="POST">
         <input type="hidden" name="track_name" value={{track[0] | replace(" ","%20") }}>
