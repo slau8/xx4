@@ -75,3 +75,14 @@ Worked on /home_logged route, connected database with spotify api
 
 joyceW -- 2018-06-10 23:37
 Worked on on routing for /room
+
+shannonL, tiffanyM -- 2018-06-11 13:00
+Added two modes
+Fixed database issues
+Combined playlist / room files
+Added AJAX component
+
+shannonL, tiffanyM -- 2018-06-12 02:00
+Resolved internal server errors
+Tweaked front-end for room.html
+Allow for easier switching between host and 'collaborator'
