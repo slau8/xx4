@@ -77,9 +77,9 @@ def room():
             
             
             if session["mode"] == "collaborator":
-                mode = true
+                mode = True
             else:
-                mode = false
+                mode = False
             if "username" in session: 
                 return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = True, is_collaborator = mode)
             else: 
