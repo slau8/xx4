@@ -163,7 +163,7 @@ def addSongs(name, song):
         print name
         print song
         songs = c_dup.fetchall()[0][0]
-        songs = songs + song + ", "
+        songs = songs + song + ";;"
         print songs
         command = "UPDATE rooms SET songs =  ? WHERE name = ?"
         c_dup = db.cursor()
@@ -173,6 +173,34 @@ def addSongs(name, song):
         print "Wrong Name"
         return False
     return True
+
+def removeSongs(room, name, artist):
+    try:
+        open_db()
+        c_dup = db.cursor()
+        command = "SELECT songs FROM rooms WHERE name = ?"
+        c_dup.execute(command, (room, ))
+        songs = c_dup.fetchall()[0][0].split(";;")
+        success, new = removeSongString(songs, name, artist)
+        if success:
+            command = "UPDATE rooms SET songs = ? WHERE name = ?"
+            c_dup.execute(command, (new, room, ))
+        close()
+        return success
+    except:
+        return False
+
+def removeSongString(songs, name, artist):
+    new = ""
+    success = False
+    for song in songs:
+        s = song.split(";")
+        if s[0] == name and s[1] == artist:
+            success = True
+            continue
+        else:
+            new += song + ";;"
+    return success, new
 
 #Get songs
 #-----------------

@@ -19,7 +19,7 @@ var updateData = function(songs){
     var element = document.createElement("div");
     var inner = "";
     var text = "";
-    
+
     for (i = 0; i < songs.length; i++) { 
         element = document.createElement("div");
         element.className = "card card-stack";
@@ -27,18 +27,37 @@ var updateData = function(songs){
         inner.setAttribute("style", "text-align: left;");
         text = document.createTextNode(songs[i][0] + " by " + songs[i][1] + " added by " + songs[i][2]);
         inner.appendChild(text);
+        remove = document.createElement("form");
+        remove.setAttribute("action", "/remove_track");
+        remove.setAttribute("method", "POST");
+        song = document.createElement("input");
+        song.setAttribute("type", "hidden");
+        song.setAttribute("name", "song");
+        song.setAttribute("value", songs[i][0]);
+        artist = document.createElement("input");
+        artist.setAttribute("type", "hidden");
+        artist.setAttribute("name", "artist");
+        artist.setAttribute("value", songs[i][1]);
+        button = document.createElement("button");
+        button.setAttribute("type", "submit");
+        button.innerHTML = "Remove";
+        button.className = "btn";
+        remove.appendChild(song);
+        remove.appendChild(artist);
+        remove.appendChild(button);
         element.appendChild(inner);
+        element.appendChild(remove);
         div.appendChild(element);
-    }  
-    
+    }
+
     if (songs.length < 1){
         element = document.createElement("h3");
         element.setAttribute("style", "text-align: center;");
-        text = document.createTextNode("No songs have been added.")
+        text = document.createTextNode("No songs have been added.");
         element.appendChild(text);
         div.appendChild(element);
     }
-    
+
 };
 
 var clear = function(){

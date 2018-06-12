@@ -46,45 +46,43 @@ def room():
         session['room'] = room
     except:
         pass
-        
+
     if 'room' in session:
-            room = session.get("room")
-            p_id = db.getPlaylistid(room)
-            try: 
-                token = db.getToken(session.get("room"))
-                playlist = spotify.get_playlist(p_id, token)
-            except:
-                host = db.getHost(session.get("room"))
-                refresh = db.getRefresh(host)
-                token = spotify.swap_token(refresh)["access_token"]
-                
-                db.addAccess(host, token)
-                playlist = spotify.get_playlist(p_id, token)
-                
-            link = playlist['external_urls']['spotify']
-            songs = db.getSongs(session.get("room")).split(",")
-            song_list = []
-            room_name = session.get("room")
-            
-            
-            for each in songs:
-                if each.strip() != "":
-                    song_list.append(each.split(";"))
-            
-            try: 
-                if request.form["host"] == "host":
-                    session["mode"] = "host"
-            except:
-                session["mode"] = "collaborator"
-            
-            
-            if session["mode"] == "collaborator":
-                mode = True
-            else:
-                mode = False
-            
-            return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = logged_in(), is_collaborator = mode)
-         
+        room = session.get("room")
+        p_id = db.getPlaylistid(room)
+        try:
+            token = db.getToken(session.get("room"))
+            playlist = spotify.get_playlist(p_id, token)
+        except:
+            host = db.getHost(session.get("room"))
+            refresh = db.getRefresh(host)
+            token = spotify.swap_token(refresh)["access_token"]
+
+            db.addAccess(host, token)
+            playlist = spotify.get_playlist(p_id, token)
+
+        link = playlist['external_urls']['spotify']
+        songs = db.getSongs(session.get("room")).split(",")
+        song_list = []
+        room_name = session.get("room")
+
+        for each in songs:
+            if each.strip() != "":
+                song_list.append(each.split(";"))
+
+        try:
+            if request.form["host"] == "host":
+                session["mode"] = "host"
+        except:
+            session["mode"] = "collaborator"
+
+        if session["mode"] == "collaborator":
+            mode = True
+        else:
+            mode = False
+
+        return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = logged_in(), is_collaborator = mode)
+
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
@@ -118,7 +116,7 @@ def logout():
 def host():
     session["mode"] = "host"
     return redirect(url_for("home_logged"))
-            
+
 @app.route("/collaborator", methods = ['GET','POST'])
 def collaborator():
     session["mode"] = "collaborator"
@@ -171,11 +169,11 @@ def auth():
         else:
             flash("Error: Incorrect username.")
             return render_template("login.html", logged_in = False)
-        
+
 @app.route("/playlist_info", methods = ['GET','POST'])
 def playlist_info():
     if 'room' in session:
-        songs = db.getSongs(session.get("room")).split(",")
+        songs = db.getSongs(session.get("room")).split(";;")
         song_list = []
         room = session.get("room")
         for each in songs:
@@ -197,14 +195,14 @@ def home_logged():
             token = spotify.swap_token(refresh)["access_token"]
             username = session["username"]
             db.addAccess(username, token)
-            
+
         user = spotify.get_user_info(token)
         playlist_ids = db.getRooms(session.get("username"))
         rooms = spotify.get_playlists(playlist_ids, token)
         print "=======playlist ids========"
         print playlist_ids
         print "==========================="
-        
+
         return render_template("home_logged.html", rooms=rooms, user=user, logged_in = True)
     else:
         return redirect(url_for("login"))
@@ -222,7 +220,7 @@ def create_room():
     if "username" in session:
         input_name = request.form["name"]
         input_key = request.form["key"]
-        
+
         try:
             token = db.getAccess(session.get("username"))
             playlist_id = spotify.create_playlist(input_name, token)
@@ -232,7 +230,7 @@ def create_room():
             username = session["username"]
             db.addAccess(username, token)
             playlist_id = spotify.create_playlist(input_name, token)
-            
+
         if db.createRoom(input_name, session["username"], input_key, playlist_id):
             flash("Success!")
             return redirect(url_for("home_logged"))
@@ -299,7 +297,6 @@ def find_track():
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
 
-
 @app.route("/add_track", methods=['POST', 'GET'])
 def add_track():
     if "room" in session:
@@ -310,10 +307,10 @@ def add_track():
             track_name = track_name.replace("%20", " ")
             track_name = track_name.replace(",", "%30")
 
-            
+
             track_artist = request.form['track_artist']
             track_artist = track_artist.replace("%20", " ")
-            
+
             track_id = request.form['track_id']
             user = session.get("name")
             room_name = session.get("room")
@@ -323,7 +320,7 @@ def add_track():
 
             p_id = db.getPlaylistid(room_name)
             print "P_ID" + p_id
-            
+
             spotify.add_track(track_id, p_id, token)
             flash('Successfully added!')
             return redirect(url_for('room'))
@@ -333,6 +330,23 @@ def add_track():
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
+
+@app.route("/remove_track", methods=["POST"])
+def remove_track():
+    if request.method == "POST":
+        try:
+            artist = request.form['artist']
+            song = request.form['song']
+            attempt = db.removeSongs(session.get("room"), song, artist)
+            if attempt:
+                flash("Removed song")
+            else:
+                flash("Could not remove song")
+        except:
+            print "==============="
+            print request.form
+            flash("Failed to remove song")
+    return redirect(url_for("room"))
 
 def logged_in():
     if "username" in session:
