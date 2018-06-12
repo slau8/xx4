@@ -25,8 +25,12 @@ var updateData = function(songs){
         element.className = "card card-stack";
         inner = document.createElement("h3");
         inner.setAttribute("style", "text-align: left;");
-        text = document.createTextNode(songs[i][0] + " by " + songs[i][1] + " added by " + songs[i][2]);
+        text = document.createTextNode(songs[i][0].bold() + " by " + songs[i][1]);
+        spa = document.createElement("span");
+        spa.setAttribute("style","float: right;");
+        spa = document.createTextNode(songs[i][2]);
         inner.appendChild(text);
+        inner.appendChild(spa);
         element.appendChild(inner);
         div.appendChild(element);
     }  
@@ -34,7 +38,7 @@ var updateData = function(songs){
     if (songs.length < 1){
         element = document.createElement("h3");
         element.setAttribute("style", "text-align: center;");
-        text = document.createTextNode("No Songs Have Been Added")
+        text = document.createTextNode("No songs have been added.")
         element.appendChild(text);
         div.appendChild(element);
     }
