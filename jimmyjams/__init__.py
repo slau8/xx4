@@ -13,10 +13,10 @@ app.secret_key = os.urandom(32)
 
 @app.route("/", methods = ['GET','POST'])
 def test():
-    if "username" in session:
+    if session["mode"] == "host":
         return redirect(url_for("home_logged"))
     else:
-        return render_template("enter.html", logged_in = False)
+        return render_template("enter.html", logged_in = logged_in())
 
 @app.route("/enter", methods = ['GET','POST'])
 def enter():
@@ -80,10 +80,9 @@ def room():
                 mode = True
             else:
                 mode = False
-            if "username" in session: 
-                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = True, is_collaborator = mode)
-            else: 
-                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = False, is_collaborator = mode)
+            
+            return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = logged_in(), is_collaborator = mode)
+         
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
@@ -108,11 +107,20 @@ def login():
 def logout():
     if "username" in session:
         session.pop("username")
-        flash('Yay! Successfully logged out!')
+        flash('Successfully logged out.')
         return redirect(url_for("test"))
     else:
         return redirect(url_for("test")) 
 
+@app.route("/host", methods = ['GET','POST'])
+def host():
+    session["mode"] = "host"
+    return redirect(url_for("home_logged"))
+            
+@app.route("/collaborator", methods = ['GET','POST'])
+def collaborator():
+    session["mode"] = "collaborator"
+    return redirect(url_for("test"))
 
 @app.route("/create" , methods = ['GET','POST'])
 def check_creation():
@@ -169,8 +177,6 @@ def playlist_info():
         song_list = []
         room = session.get("room")
         for each in songs:
-            print each
-            each.replace("%30", ",")
             if each.strip() != "":
                 song_list.append(each.split(";"))
     response = { "songs" : song_list}
@@ -274,7 +280,6 @@ def find_track():
         token = db.getToken(session.get("room"))
         title = request.form["song_name"]
         title.replace(" ", "%20")
-        
         try:
             tracks = spotify.get_track(title, token)
         except:
@@ -300,12 +305,9 @@ def add_track():
         try:
             track_name = request.form['track_name']
             track_name = track_name.replace("%20", " ")
-            track_name = track_name.replace(",", "%30")
             print track_name
             
             track_artist = request.form['track_artist']
-            track_artist = track_artist.replace("%20", " ")
-            
             track_id = request.form['track_id']
             user = session.get("name")
             room_name = session.get("room")
@@ -326,7 +328,10 @@ def add_track():
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
 
-
+def logged_in():
+    if "username" in session:
+        return true
+    return false
 
 if __name__ == "__main__":
     app.debug = True
