@@ -331,8 +331,8 @@ def add_track():
 
 def logged_in():
     if "username" in session:
-        return true
-    return false
+        return True
+    return False
 
 if __name__ == "__main__":
     app.debug = True
