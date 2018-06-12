@@ -9,7 +9,10 @@
 	      <button class="dropdown-toggle btn btn-block" style="width:200px" type="button" data-toggle="dropdown"><b>HOST MODE</b>
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li class="text-center" style="width:200px"><a href="/logout"><b>COLLABORATOR MODE</b></a></li>
+    <li class="text-center" style="width:200px"><a href="/"><b>COLLABORATOR MODE</b></a></li>
+	  {% if logged_in %}
+	<li class="text-center" style="width:200px"><a href="/logout"><b>LOG OUT</b></a></li>
+	{% endif %}
   </ul>
 </div>
 	  </li>
