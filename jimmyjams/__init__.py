@@ -75,7 +75,6 @@ def room():
             except:
                 session["mode"] = "collaborator"
             
-            mode = false
             
             if session["mode"] == "collaborator":
                 mode = true
