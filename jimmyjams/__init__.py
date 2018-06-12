@@ -303,6 +303,8 @@ def add_track():
             print track_name
             
             track_artist = request.form['track_artist']
+            track_artist = track_artist.replace("%20", " ")
+            
             track_id = request.form['track_id']
             user = session.get("name")
             room_name = session.get("room")
