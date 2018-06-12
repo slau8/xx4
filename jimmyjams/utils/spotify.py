@@ -151,7 +151,6 @@ def get_playlist(playlist_id, token):
     url = 'https://api.spotify.com/v1/users/' + get_user_info(token)['id'] + '/playlists/' + playlist_id
     req = requests.get(url, headers=authorization_header)
     resp = json.loads(req.text)
-    print resp
     return resp
 
 #gets all playlist info of rooms

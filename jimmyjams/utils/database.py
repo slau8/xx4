@@ -181,6 +181,8 @@ def removeSongs(room, name, artist):
         command = "SELECT songs FROM rooms WHERE name = ?"
         c_dup.execute(command, (room, ))
         songs = c_dup.fetchall()[0][0].split(";;")
+        if songs[len(songs) - 1] == '':
+            songs = songs[:len(songs) - 1]
         success, new = removeSongString(songs, name, artist)
         if success:
             command = "UPDATE rooms SET songs = ? WHERE name = ?"
@@ -195,11 +197,11 @@ def removeSongString(songs, name, artist):
     success = False
     for song in songs:
         s = song.split(";")
-        if s[0] == name and s[1] == artist:
+        if success or s[0] != name or s[1] != artist:
+            new += song + ";;"
+        else:
             success = True
             continue
-        else:
-            new += song + ";;"
     return success, new
 
 #Get songs
