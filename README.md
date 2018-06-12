@@ -51,6 +51,7 @@ This app utilizes the Spotify API and requires credentials from the app.
 For your [Spotify](https://developer.spotify.com/dashboard/) API credentials:
 1. After logging in, click *Create a Client ID* in the upper-right corner.
 2. Enter app name, type, and description (Jimmy Jams, website, app that receives music requests and curates a Spotify playlist).
+3. In app settings, add `http://127.0.0.1:5000/apitest` as a redirect URI.
 3. Your Client ID and Client Secret will appear on your dashboard.
 
 Clone the repo and move into the utils directory:
