@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 
-@app.route("/", methods = ['GET','POST'])
+@app.route("/")
 def test():
     if "mode" in session:
         if session["mode"] == "host":
