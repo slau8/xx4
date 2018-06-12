@@ -118,7 +118,7 @@ def check_creation():
                 session['username'] = user
                 print 'asdfjasdjfsdjf<><>' + user
                 print '***' + session['username']
-                flash("Welcome! Login here.")
+                flash("Welcome!")
                 return redirect(url_for("spotifyauth"))
             else:
                 flash ("Sorry, this username already exists. Try again.")
