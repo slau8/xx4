@@ -16,9 +16,6 @@ bg-navy
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li class="text-center" style="width:200px"><a href="/logout"><b>COLLABORATOR MODE</b></a></li>
-  </ul>
-</div>
-	  </li>
 
 {% else %}
 <li class="nav-item space">
@@ -27,10 +24,14 @@ bg-navy
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li class="text-center" style="width:200px"><a href="/signup"><b>HOST MODE</b></a></li>
-  </ul>
+  
+{% endif %}
+{% if logged_in %}
+	<li class="text-center" style="width:200px"><a href="/logout"><b>LOG OUT</b></a></li>
+{% endif %}
+	  </ul>
 </div>
 </li>
-{% endif %}
 {% endblock right_nav %}
 
 {% block content %}
