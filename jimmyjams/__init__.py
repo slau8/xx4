@@ -31,6 +31,7 @@ def enter():
     if db.accessRoom(room_name, key):
         session["name"] = name
         session['room'] = room_name
+        session["mode"] = "collaborator"
         return redirect(url_for("room"))
     else:
         flash('Wrong room name or key')
@@ -67,10 +68,19 @@ def room():
             for each in songs:
                 if each.strip() != "":
                     song_list.append(each.split(";"))
+            
+            try: 
+                if request.form["host"] == "host":
+                    session["mode"] = "host"
+            
+            if session["mode"] == "collaborator":
+                mode = true
+            else:
+                mode = false
             if "username" in session: 
-                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = True)
+                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = True, is_collaborator = mode)
             else: 
-                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = False)
+                return render_template("room.html", song_list = song_list, room_name=room_name, link = link, logged_in = False, is_collaborator = mode)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))
