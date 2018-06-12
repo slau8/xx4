@@ -16,7 +16,7 @@ def test():
     if "username" in session:
         return redirect(url_for("home_logged"))
     else:
-        return render_template("enter.html")
+        return render_template("enter.html", logged_in = False)
 
 @app.route("/enter", methods = ['GET','POST'])
 def enter():
@@ -81,7 +81,7 @@ def signup():
         flash("You're already logged in!")
         return redirect(url_for("home_logged"))
     else:
-        return render_template("signup.html")
+        return render_template("signup.html", logged_in = False)
 
 @app.route("/login", methods = ['GET','POST'])
 def login():
@@ -89,7 +89,7 @@ def login():
         flash("You're already logged in!")
         return redirect(url_for("home_logged"))
     else:
-        return render_template("login.html")
+        return render_template("login.html", logged_in = False)
 
 @app.route("/logout", methods = ['GET','POST'])
 def logout():
@@ -98,7 +98,6 @@ def logout():
         flash('Yay! Successfully logged out!')
         return redirect(url_for("test"))
     else:
-        flash('You have to be logged in to log out!')
         return redirect(url_for("test")) 
 
 
@@ -145,10 +144,10 @@ def auth():
                 return redirect(url_for("home_logged"))
             else:
                 flash("Error: Incorrect password.")
-                return render_template("login.html")
+                return render_template("login.html", logged_in = False)
         else:
             flash("Error: Incorrect username.")
-            return render_template("login.html")
+            return render_template("login.html", logged_in = False)
         
 @app.route("/playlist_info", methods = ['GET','POST'])
 def playlist_info():
@@ -182,17 +181,17 @@ def home_logged():
         print playlist_ids
         print "==========================="
         
-        return render_template("home_logged.html", rooms=rooms, user=user)
+        return render_template("home_logged.html", rooms=rooms, user=user, logged_in = True)
     else:
         return redirect(url_for("login"))
 
 @app.route("/room_form")
 def room_form():
     if "username" in session:
-        return render_template("room_form.html")
+        return render_template("room_form.html", logged_in = True)
     else:
         flash("Please Login First")
-        return render_template("login.html")
+        return render_template("login.html", logged_in = False)
 
 @app.route("/create_room", methods = ['GET','POST'])
 def create_room():
@@ -215,7 +214,7 @@ def create_room():
             return redirect(url_for("home_logged"))
         else:
             flash("Room name already taken :(")
-            return render_template("room_form.html")
+            return render_template("room_form.html", logged_in = True)
     else:
         return redirect(url_for("login"))
 
@@ -229,7 +228,7 @@ def spotifyauth():
         return redirect(url)
     else:
         flash("Please Login First")
-        return render_template("login.html")
+        return render_template("login.html", logged_in = False)
 
 @app.route("/apitest")
 def apitest():
@@ -244,7 +243,7 @@ def apitest():
         return redirect(url_for("home_logged"))
     else:
         flash("Please Login First")
-        return render_template("login.html")
+        return render_template("login.html", logged_in = False)
 '''
 @app.route("/search")
 def search():
@@ -268,7 +267,10 @@ def find_track():
             token = spotify.swap_token(refresh)["access_token"]
             db.addAccess(host,token)
             tracks = spotify.get_track(title, token)
-        return render_template("track_results.html", tracks = tracks)
+        if "username" in session:
+            return render_template("track_results.html", tracks = tracks, logged_in = True)
+        else:
+            return render_template("track_results.html", tracks = tracks, logged_in = False)
     else:
         flash("Sign Into A Room First!")
         return redirect(url_for("test"))

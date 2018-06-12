@@ -16,20 +16,24 @@ var retrieveData = function(e){
 var updateData = function(songs){
     clear();
     var div = document.getElementById("songs");
-    var element = document.createElement("h3");
+    var element = document.createElement("div");
+    var inner = "";
     var text = "";
     
     for (i = 0; i < songs.length; i++) { 
-        element = document.createElement("h3");
-        element.setAttribute("style", "text-align: left;");
+        element = document.createElement("div");
+        element.className = "card card-stack";
+        inner = document.createElement("h3");
+        inner.setAttribute("style", "text-align: left;");
         text = document.createTextNode(songs[i][0] + " by " + songs[i][1] + " added by " + songs[i][2]);
-        element.appendChild(text);
+        inner.appendChild(text);
+        element.appendChild(inner);
         div.appendChild(element);
     }  
     
     if (songs.length < 1){
         element = document.createElement("h3");
-        element.setAttribute("style", "text-align: left;");
+        element.setAttribute("style", "text-align: center;");
         text = document.createTextNode("No Songs Have Been Added")
         element.appendChild(text);
         div.appendChild(element);
