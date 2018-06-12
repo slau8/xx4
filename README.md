@@ -21,7 +21,7 @@ Jimmy Jams is a web application that allows people to request music in real time
 * HTML/CSS
 
 ## Running the App (Locally)
-### Virtual Environment, Flask, and Requests
+### Virtual Environment and Flask
 Flask needs to be installed in order to run this program locally. It is ideally stored in a virtual environment (venv).
 
 To install a venv called `<name>`, run these commands in your terminal:
