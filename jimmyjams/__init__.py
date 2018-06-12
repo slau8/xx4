@@ -178,6 +178,7 @@ def playlist_info():
         song_list = []
         room = session.get("room")
         for each in songs:
+            each.replace("%30", ",")
             if each.strip() != "":
                 song_list.append(each.split(";"))
     response = { "songs" : song_list}
@@ -306,9 +307,12 @@ def add_track():
         try:
             track_name = request.form['track_name']
             track_name = track_name.replace("%20", " ")
-            print track_name
+            track_name = track_name.replace(",", "%30")
+
             
             track_artist = request.form['track_artist']
+            track_artist = track_artist.replace("%20", " ")
+            
             track_id = request.form['track_id']
             user = session.get("name")
             room_name = session.get("room")
