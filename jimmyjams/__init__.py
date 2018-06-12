@@ -72,6 +72,8 @@ def room():
             try: 
                 if request.form["host"] == "host":
                     session["mode"] = "host"
+            except:
+                session["mode"] = "collaborator"
             
             if session["mode"] == "collaborator":
                 mode = true
