@@ -64,6 +64,9 @@ joyceW -- 2018-06-04 13:19
 Finished spotify playlist functions
 Renamed all files for server
 
+helenY -- 2018-06-07 07:49
+Debug saving access token to database
+
 joyceW -- 2018-06-07 15:01
 Tested all spotify functions
 
@@ -76,13 +79,34 @@ Worked on /home_logged route, connected database with spotify api
 joyceW -- 2018-06-10 23:37
 Worked on on routing for /room
 
+helenY -- 2018-06-10 10:56
+Changes to make the apache server work
+
+helenY -- 2018-06-10 11:05
+Fix error when image wasn't existing
+
 shannonL, tiffanyM -- 2018-06-11 13:00
 Added two modes
 Fixed database issues
 Combined playlist / room files
 Added AJAX component
 
+helenY -- 2018-06-11 16:37
+Fix only saving one word to database instead of entire song/artist name
+
+helenY -- 2018-06-11 21:22
+Fix bug when joining room that doesn't exist
+
 shannonL, tiffanyM -- 2018-06-12 02:00
 Resolved internal server errors
 Tweaked front-end for room.html
 Allow for easier switching between host and 'collaborator'
+
+helenY -- 2018-06-12 17:32
+Allow for songs to be removed from playlist
+
+helenY -- 2018-06-12 18:12
+Fix bug with song removal
+
+helenY -- 2018-06-13 00:12
+Remove on actual Spotify playlist instead of just on app database
