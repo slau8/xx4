@@ -202,8 +202,10 @@ def home_logged():
         print "=======playlist ids========"
         print playlist_ids
         print "==========================="
+        name = db.getName(session.get("username"))
+        print name
 
-        return render_template("home_logged.html", rooms=rooms, user=user, logged_in = True)
+        return render_template("home_logged.html", name=name, rooms=rooms, user=user, logged_in = True)
     else:
         return redirect(url_for("login"))
 

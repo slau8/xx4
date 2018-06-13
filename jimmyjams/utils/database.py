@@ -103,6 +103,15 @@ def getRefresh(user):
     close()
     return token
 
+def getName(user):
+    open_db()
+    c_dup = db.cursor()
+    command = "SELECT fname,lname FROM hosts WHERE username = ?"
+    c_dup.execute(command, (user,))
+    token = c_dup.fetchall()[0][0]
+    close()
+    return token
+
 #Rooms
 #==========================================================
 #Create a room
