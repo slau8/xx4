@@ -317,7 +317,7 @@ def add_track():
             except:
                 user = session.get("username") + " (host)"
             room_name = session.get("room")
-            insert = track_name + ";" + track_artist + ";" + user
+            insert = track_name + ";" + track_artist + ";" + user + ";" + track_id
             db.addSongs(room_name, insert)
             print "Cool"
 
@@ -340,6 +340,16 @@ def remove_track():
         try:
             artist = request.form['artist']
             song = request.form['song']
+            track = request.form['id']
+            attempt = False
+            try:
+                p_id = db.getPlaylistid(session.get("room"))
+                token = db.getToken(session.get("room"))
+                resp = spotify.delete_track(track, p_id, token)
+                print resp
+                attempt = True
+            except:
+                print "Something went wrong...?"
             attempt = db.removeSongs(session.get("room"), song, artist)
             if attempt:
                 flash("Removed song")

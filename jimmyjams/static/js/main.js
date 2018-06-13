@@ -20,8 +20,7 @@ var updateData = function(songs){
     var inner = "";
     var text = "";
 
-    for (i = 0; i < songs.length; i++) { 
-        element = document.createElement("div");
+    for (i = 0; i < songs.length; i++) { element = document.createElement("div");
         element.className = "card card-stack";
         inner = document.createElement("h3");
         inner.setAttribute("style", "text-align: left;");
@@ -38,6 +37,10 @@ var updateData = function(songs){
         artist.setAttribute("type", "hidden");
         artist.setAttribute("name", "artist");
         artist.setAttribute("value", songs[i][1]);
+        id = document.createElement("input");
+        id.setAttribute("type", "hidden");
+        id.setAttribute("name", "id");
+        id.setAttribute("value", songs[i][3]);
         button = document.createElement("button");
         button.setAttribute("type", "submit");
         button.innerHTML = "Remove";
@@ -45,6 +48,7 @@ var updateData = function(songs){
         remove.appendChild(song);
         remove.appendChild(artist);
         remove.appendChild(button);
+        remove.appendChild(id);
         element.appendChild(inner);
         element.appendChild(remove);
         div.appendChild(element);

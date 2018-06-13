@@ -197,7 +197,9 @@ def removeSongString(songs, name, artist):
     success = False
     for song in songs:
         s = song.split(";")
-        if success or s[0] != name or s[1] != artist:
+        if song == "":
+            continue
+        if (s[0] != name or s[1] != artist):
             new += song + ";;"
         else:
             success = True
