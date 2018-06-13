@@ -30,6 +30,12 @@ Switched from MongoDB to SQL
 Added component description
 Elaborated further on task delegation
 
+tiffanyM -- 2018-05-22 12:57
+Added initial files
+
+tiffanyM -- 2018-05-24 13:15
+Added setupdb.py, but did not test yet
+
 helenY -- 2018-05-24 21:15
 Try to get Spotify app authorization working
     Getting error when spotify.py is in /utils
@@ -48,11 +54,25 @@ Finish getting access token
 joyceW -- 2018-05-28 11:47
 Discovered Spotipy api, will use for manipulating tracks for playlists
 
+tiffanyM -- 2018-05-28 23:21
+Added database commands for rooms and hosts
+Tested and setup the database
+
+tiffanyM -- 2018-05-29 13:15
+Added token functions in database.py
+
 joyceW -- 2018-05-29 19:44
-Finally understood spotfiy api! Successfully implemented a playlist manipulation function
+Finally understood spotify api! Successfully implemented a playlist manipulation function
 
 helenY -- 2018-05-29 23:52
 Add front end for finding tracks
+
+tiffanyM -- 2018-05-30 01:56
+Added database functions to flask app
+Auth now works
+
+tiffanyM -- 2018-05-30 12:26
+Added preliminary form to create rooms and test database fxns
 
 joyceW -- 2018-06-01 22:12
 Continued with playlist manipulation functions
@@ -60,15 +80,37 @@ Continued with playlist manipulation functions
 joyceW -- 2018-06-03 23:09
 More spotify.py functions; worked on host console account
 
+tiffanyM -- 2018-06-04 12:49
+Fixed up auth, create room, create
+Added functionality to add songs to the database through add_songs
+
 joyceW -- 2018-06-04 13:19
 Finished spotify playlist functions
 Renamed all files for server
 
+tiffanyM -- 2018-06-04 13:27
+Fixed some bugs in add_songs
+
+tiffanyM -- 2018-06-05 00:25
+Fixed more bugs in add_songs
+
 helenY -- 2018-06-07 07:49
 Debug saving access token to database
 
+tiffanyM -- 2018-06-07 14:40
+Fixed structure of the database
+All keys are now stored under username
+
 joyceW -- 2018-06-07 15:01
 Tested all spotify functions
+
+tiffanyM -- 2018-06-07 22:13
+Allow collaborators to retrieve the tokens
+Worked on entering rooms
+Worked on displaying room information
+
+tiffanyM -- 2018-06-08 00:34
+Added more database functions to allow people in rooms to retrieve more information to run the spotify fxns
 
 joyceW -- 2018-06-08 23:58
 Combined spotify fxns with database fxns for flask app
@@ -85,11 +127,28 @@ Changes to make the apache server work
 helenY -- 2018-06-10 11:05
 Fix error when image wasn't existing
 
-shannonL, tiffanyM -- 2018-06-11 13:00
+tiffanyM -- 2018-06-11 00:21
+Fixed a lot of errors with the flask app and the spotify fxns
+Now the database stores the playlist_id
+Can now add songs to spotify successfully
+
+tiffanyM -- 2018-06-11 02:31
+Spotify refresh token didn't work, but fixed it eventually
+Now the token will auto refresh everytime you use the access token
+--> if the fxn fails, it will call the refresh fxn to get a new token
+New token is stored and is used in the fxn
+
+shannonL -- 2018-06-11 13:00
 Added two modes
-Fixed database issues
 Combined playlist / room files
-Added AJAX component
+
+tiffanyM -- 2018-06-11 14:30
+Added AJAX component 
+    --> calls db to get new song info
+Fixed database issues
+
+tiffanyM -- 2018-06-11 16:43
+Fixed issues with displaying song lists
 
 helenY -- 2018-06-11 16:37
 Fix only saving one word to database instead of entire song/artist name
@@ -101,6 +160,7 @@ shannonL, tiffanyM -- 2018-06-12 02:00
 Resolved internal server errors
 Tweaked front-end for room.html
 Allow for easier switching between host and 'collaborator'
+Lots and lots of testingggggggg
 
 helenY -- 2018-06-12 17:32
 Allow for songs to be removed from playlist
@@ -108,5 +168,11 @@ Allow for songs to be removed from playlist
 helenY -- 2018-06-12 18:12
 Fix bug with song removal
 
+helenY, tiffanyM -- 2018-06-12 22:30
+Recorded the demo video
+
 helenY -- 2018-06-13 00:12
 Remove on actual Spotify playlist instead of just on app database
+
+tiffanyM -- 2018-06-13 00:15
+Edited the video and published it
