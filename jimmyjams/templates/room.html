@@ -40,7 +40,7 @@ bg-navy
 
   
   <a target="_blank" href={{ link }}><input class="btn btn-block-yellow" type="submit" value="View the Spotify Playlist"></a>
-
+  {% if is_collaborator %}
 <div class="card card-center">
   <form action="/find_track" method="POST">
     <div class="form-group">
@@ -49,7 +49,7 @@ bg-navy
     <input class="btn btn-block" type="submit" value="SEARCH" name="search_song">
   </form><br>
 </div>
-
+ {% endif %}
 <!--{% for song in song_list %}
 <div class="card card-stack">
   <h3 style="text-align: left;">{{song[0]}} by {{song[1]}} added by {{song[2]}}</h3>
