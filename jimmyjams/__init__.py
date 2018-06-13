@@ -315,7 +315,10 @@ def add_track():
             track_artist = track_artist.replace("%20", " ")
             
             track_id = request.form['track_id']
-            user = session.get("name")
+            try: 
+                user = session.get("name")
+            except:
+                user = session.get("username") + " (host)"
             room_name = session.get("room")
             insert = track_name + ";" + track_artist + ";" + user
             db.addSongs(room_name, insert)
