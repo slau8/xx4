@@ -2,7 +2,7 @@
 
 # xx4 presents: JIMMY JAMS
 
-~~Find our app [here](http://159.89.230.97/)!~~ (Server no longer available)
+~~Find our app here!~~ (App no longer live)
 
 Watch a demo [here](https://www.youtube.com/watch?9=&v=YgQWEBAO9NE)!
 
